@@ -8,15 +8,18 @@ public final class NavigationDriver {
     }
 
     func forward(to viewController: UIViewController) {
-        navigationController.pushViewController(viewController, animated: true)
+        if let index = navigationController
+            .viewControllers
+            .firstIndex(where: { type(of: $0) == type(of: viewController) }) {
+
+            navigationController.popToViewController(navigationController.viewControllers[index], animated: true)
+        } else {
+            navigationController.pushViewController(viewController, animated: true)
+        }
     }
 
     func back() {
         navigationController.popViewController(animated: true)
-    }
-
-    func back(to index: Int) {
-        navigationController.popToViewController(navigationController.viewControllers[index], animated: true)
     }
 
     func backToRoot() {

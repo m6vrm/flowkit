@@ -9,19 +9,13 @@ public final class Navigator<Route, Builder: ModuleBuilder> where Builder.Route 
         self.builder = builder
     }
 
-    @discardableResult
-    public func forward(to route: Route) -> UIViewController? {
+    public func forward(to route: Route) {
         let viewController = builder.build(by: route)
         driver.forward(to: viewController)
-        return viewController
     }
 
     public func back() {
         driver.back()
-    }
-
-    public func back(to index: Int) {
-        driver.back(to: index)
     }
 
     public func backToRoot() {

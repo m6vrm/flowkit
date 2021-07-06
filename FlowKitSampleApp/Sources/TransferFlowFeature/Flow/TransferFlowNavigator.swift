@@ -12,7 +12,8 @@ final class TransferFlowNavigator {
 extension TransferFlowNavigator: FlowNavigator {
     func navigate(to step: TransferFlowStep, with state: TransferFlowState) -> FlowPromise<TransferFlowStep> {
         switch (step, state) {
-        case (.amountRequired, .country(let country)):
+        case (.amountRequired, .country(let country)),
+             (.amountRequired, .tariff(_, _, let country)):
             return .success { completion in
                 self.navigator.forward(to: .amount(country: country,
                                                    completion: { completion(.amountComplete(amount: $0)) }))
@@ -35,8 +36,6 @@ extension TransferFlowNavigator: FlowNavigator {
                 self.navigator.forward(to: .success(transfer: transfer,
                                                     completion: { completion(.successComplete) }))
             }
-        case (.successComplete, _):
-            return .success { _ in self.navigator.backToRoot() }
         default:
             return .nothing()
         }
