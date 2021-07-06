@@ -1,5 +1,6 @@
 import FlowKit
 import NavigationKit
+import PromiseKit
 
 final class TransferFlowNavigator {
     private let navigator: RouteNavigator
@@ -14,25 +15,28 @@ extension TransferFlowNavigator: FlowNavigator {
         switch (step, state) {
         case (.amountRequired, .country(let country)),
              (.amountRequired, .tariff(_, _, let country)):
-            return .success { completion in
+            return .promise { completion in
                 self.navigator.forward(to: .amount(country: country,
                                                    completion: { completion(.amountComplete(amount: $0)) }))
             }
         case (.invalidAmountRequired, _):
-            return .success { _ in self.navigator.forward(to: .invalidAmount) }
+            return .promise { _ in self.navigator.forward(to: .invalidAmount) }
         case (.tariffsRequired, _):
-            return .success { completion in
+            return .promise { completion in
                 self.navigator.forward(to: .tariffs(completion: { completion(.tariffsComplete(tariff: $0)) }))
             }
         case (.confirmationRequired, .tariff(let tariff, let amount, let country)):
-            return .success { completion in
-                self.navigator.forward(to: .confirmation(country: country,
+            return .promise { completion in
+                let loadingPublisher = Publisher<Bool>()
+                self.navigator.forward(to: .confirmation(loadingPublisher: loadingPublisher,
+                                                         country: country,
                                                          amount: amount,
                                                          tariff: tariff,
-                                                         completion: { completion(.confirmationComplete(result: $0)) }))
+                                                         completion: { completion(.confirmationComplete(result: $0,
+                                                                                                        loadingPublisher: loadingPublisher)) }))
             }
         case (.successRequired, .transfer(let transfer)):
-            return .success { completion in
+            return .promise { completion in
                 self.navigator.forward(to: .success(transfer: transfer,
                                                     completion: { completion(.successComplete) }))
             }

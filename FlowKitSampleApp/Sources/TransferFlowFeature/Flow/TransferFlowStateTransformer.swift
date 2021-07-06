@@ -14,19 +14,23 @@ extension TransferFlowStateTransformer: FlowStateTransformer {
 
         switch (step, state) {
         case (.amountComplete(let amount), .country(let country)):
-            return .success(.continue(.amount(amount, country: country)))
+            return .promise(.continue(.amount(amount, country: country)))
         case (.tariffsComplete(let tariff), .amount(let amount, let country)):
-            return .success(.continue(.tariff(tariff, amount: amount, country: country)))
-        case (.confirmationComplete(result: .continue), .tariff(let tariff, let amount, let country)):
-            return .success { completion in
+            return .promise(.continue(.tariff(tariff, amount: amount, country: country)))
+        case (.confirmationComplete(result: .continue, let loadingPublisher),
+              .tariff(let tariff, let amount, let country)):
+            return .promise { completion in
+                loadingPublisher.value = true
+
                 self.transferRepository.createTransfer(country: country, amount: amount, tariff: tariff) {
                     completion(.continue(.transfer($0)))
+                    loadingPublisher.value = false
                 }
             }
         case (_, .transfer(let transfer)):
-            return .success(.finish(transfer))
+            return .promise(.finish(transfer))
         default:
-            return .success(.continue(state))
+            return .promise(.continue(state))
         }
     }
 }

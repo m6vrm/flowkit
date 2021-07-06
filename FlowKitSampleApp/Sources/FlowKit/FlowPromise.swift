@@ -7,11 +7,11 @@ public struct FlowPromise<Output> {
         self.work = work
     }
 
-    public static func success(_ value: Output) -> Self {
+    public static func promise(_ value: Output) -> Self {
         return Self { $0(value) }
     }
 
-    public static func success(_ handler: @escaping (@escaping (Output) -> Void) -> Void) -> Self {
+    public static func promise(_ handler: @escaping (@escaping (Output) -> Void) -> Void) -> Self {
         return Self { completion in handler { completion($0) } }
     }
 

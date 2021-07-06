@@ -2,6 +2,7 @@ import UIKit
 import PromiseKit
 
 final class ConfirmationViewController: UIViewController {
+    private let loadingPublisher: Publisher<Bool>
     private let country: Country
     private let amount: Int
     private let tariff: Tariff
@@ -13,11 +14,13 @@ final class ConfirmationViewController: UIViewController {
         return activityIndicator
     }()
 
-    init(country: Country,
+    init(loadingPublisher: Publisher<Bool>,
+         country: Country,
          amount: Int,
          tariff: Tariff,
          completion: @escaping (ConfirmationResult) -> Void) {
 
+        self.loadingPublisher = loadingPublisher
         self.country = country
         self.amount = amount
         self.tariff = tariff
@@ -79,6 +82,14 @@ final class ConfirmationViewController: UIViewController {
         countryLabel.text = "Country: \(country.name)"
         amountLabel.text = "Amount: \(amount)"
         comissionLabel.text = "Comission: \(tariff.comission)%"
+
+        loadingPublisher.subscribe { [weak self] loading in
+            if loading {
+                self?.activityIndicator.startAnimating()
+            } else {
+                self?.activityIndicator.stopAnimating()
+            }
+        }
     }
 }
 

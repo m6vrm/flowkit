@@ -1,3 +1,5 @@
+import PromiseKit
+
 enum TransferFlowStep {
     case amountRequired
     case amountComplete(amount: Int)
@@ -8,7 +10,7 @@ enum TransferFlowStep {
     case tariffsComplete(tariff: Tariff)
 
     case confirmationRequired
-    case confirmationComplete(result: ConfirmationResult)
+    case confirmationComplete(result: ConfirmationResult, loadingPublisher: Publisher<Bool>)
 
     case successRequired
     case successComplete

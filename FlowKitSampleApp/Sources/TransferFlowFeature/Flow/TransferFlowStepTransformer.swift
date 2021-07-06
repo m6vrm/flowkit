@@ -7,20 +7,20 @@ extension TransferFlowStepTransformer: FlowStepTransformer {
         switch step {
         case .amountComplete(let amount):
             if amount < 100 {
-                return .success(.invalidAmountRequired)
+                return .promise(.invalidAmountRequired)
             } else {
-                return .success(.tariffsRequired)
+                return .promise(.tariffsRequired)
             }
         case .tariffsComplete:
-            return .success(.confirmationRequired)
-        case .confirmationComplete(.continue):
-            return .success(.successRequired)
-        case .confirmationComplete(.editAmount):
-            return .success(.amountRequired)
-        case .confirmationComplete(.editTariff):
-            return .success(.tariffsRequired)
+            return .promise(.confirmationRequired)
+        case .confirmationComplete(.continue, _):
+            return .promise(.successRequired)
+        case .confirmationComplete(.editAmount, _):
+            return .promise(.amountRequired)
+        case .confirmationComplete(.editTariff, _):
+            return .promise(.tariffsRequired)
         default:
-            return .success(step)
+            return .promise(step)
         }
     }
 }
