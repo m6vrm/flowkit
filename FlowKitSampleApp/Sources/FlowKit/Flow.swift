@@ -1,13 +1,13 @@
-public struct Flow<FlowResult,
+public struct Flow<Result,
                    Navigator: FlowNavigator,
                    StepTransformer: FlowStepTransformer,
                    StateTransformer: FlowStateTransformer>
 
-    where Navigator.FlowStep == StepTransformer.FlowStep,
-          Navigator.FlowState == StepTransformer.FlowState,
-          StateTransformer.FlowStep == StepTransformer.FlowStep,
-          StateTransformer.FlowState == StepTransformer.FlowState,
-          StateTransformer.FlowResult == FlowResult {
+    where Navigator.Step == StepTransformer.Step,
+          Navigator.State == StepTransformer.State,
+          StateTransformer.Step == StepTransformer.Step,
+          StateTransformer.State == StepTransformer.State,
+          StateTransformer.Result == Result {
 
     private let navigator: Navigator
     private let stepTransformer: StepTransformer
@@ -18,11 +18,11 @@ public struct Flow<FlowResult,
                 stateTransformer: StateTransformer) {
 
         self.navigator = navigator
-        self.stateTransformer = stateTransformer
         self.stepTransformer = stepTransformer
+        self.stateTransformer = stateTransformer
     }
 
-    public func start(step: Navigator.FlowStep, state: StateTransformer.FlowState) -> FlowPromise<FlowResult> {
+    public func start(step: Navigator.Step, state: StateTransformer.State) -> FlowPromise<Result> {
         return FlowPromise { completion in
             zip(stateTransformer.transform(state: state, for: step),
                 stepTransformer.transform(step: step, with: state))

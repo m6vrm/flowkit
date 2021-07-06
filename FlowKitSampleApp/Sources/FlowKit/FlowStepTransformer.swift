@@ -1,6 +1,6 @@
 public protocol FlowStepTransformer {
-    associatedtype FlowState
-    associatedtype FlowStep
+    associatedtype State
+    associatedtype Step
 
-    func transform(step: FlowStep, with: FlowState) -> FlowPromise<FlowStep>
+    func transform(step: Step, with: State) -> FlowPromise<Step>
 }

@@ -1,7 +1,7 @@
 public protocol FlowStateTransformer {
-    associatedtype FlowState
-    associatedtype FlowStep
-    associatedtype FlowResult
+    associatedtype State
+    associatedtype Step
+    associatedtype Result
 
-    func transform(state: FlowState, for: FlowStep) -> FlowPromise<StateTransformationResult<FlowState, FlowResult>>
+    func transform(state: State, for: Step) -> FlowPromise<StateTransformationResult<State, Result>>
 }

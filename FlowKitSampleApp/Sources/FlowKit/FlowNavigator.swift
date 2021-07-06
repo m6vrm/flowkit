@@ -1,6 +1,6 @@
 public protocol FlowNavigator {
-    associatedtype FlowStep
-    associatedtype FlowState
+    associatedtype Step
+    associatedtype State
 
-    func navigate(to: FlowStep, with: FlowState) -> FlowPromise<FlowStep>
+    func navigate(to: Step, with: State) -> FlowPromise<Step>
 }
