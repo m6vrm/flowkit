@@ -1,4 +1,4 @@
-public struct FlowPromise<Output> {
+public struct Promise<Output> {
     public typealias Completion = (Output) -> Void
 
     private let work: (@escaping Completion) -> Void
@@ -19,8 +19,8 @@ public struct FlowPromise<Output> {
         return Self { _ in }
     }
 
-    public func then<NewOutput>(_ builder: @escaping (Output) -> FlowPromise<NewOutput>) -> FlowPromise<NewOutput> {
-        return FlowPromise<NewOutput> { completion in
+    public func then<NewOutput>(_ builder: @escaping (Output) -> Promise<NewOutput>) -> Promise<NewOutput> {
+        return Promise<NewOutput> { completion in
             complete { builder($0).complete(using: completion) }
         }
     }

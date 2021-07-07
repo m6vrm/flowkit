@@ -8,9 +8,9 @@ final class TransferFlowStateReducer {
     }
 }
 
-extension TransferFlowStateReducer: FlowStateReducer {
+extension TransferFlowStateReducer: StateReducer {
     func reduce(state: TransferFlowState, with step: TransferFlowStep)
-        -> FlowPromise<ReducedState<TransferFlowState, Transfer>> {
+        -> Promise<ReducedState<TransferFlowState, Transfer>> {
 
         switch (step, state) {
         case (.amountComplete(let amount), .country(let country)):

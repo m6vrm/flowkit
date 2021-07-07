@@ -1,10 +1,10 @@
 import FlowKit
 
-final class TransferFlowStepTransformer { }
+final class TransferFlowStepResultTransformer { }
 
-extension TransferFlowStepTransformer: FlowStepTransformer {
-    func transform(step: TransferFlowStep, with state: TransferFlowState) -> FlowPromise<TransferFlowStep> {
-        switch step {
+extension TransferFlowStepResultTransformer: StepResultTransformer {
+    func transform(stepResult: TransferFlowStep, with state: TransferFlowState) -> Promise<TransferFlowStep> {
+        switch stepResult {
         case .amountComplete(let amount):
             if amount < 100 {
                 return .promise(.invalidAmountRequired)
@@ -20,7 +20,7 @@ extension TransferFlowStepTransformer: FlowStepTransformer {
         case .confirmationComplete(.editTariff, _):
             return .promise(.tariffsRequired)
         default:
-            return .promise(step)
+            return .promise(stepResult)
         }
     }
 }
