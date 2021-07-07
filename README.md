@@ -2,7 +2,7 @@
 
 Продолжение [этой истории](https://github.com/madyanov/FlowKitSampleApp).
 
-Описание идеи почему-то в SVG, кликабельно:
+Описание идеи в SVG, кликабельно:
 
 [![Idea](./flowkit.svg)](https://raw.githubusercontent.com/madyanov/FlowKit/master/flowkit.svg)
 
