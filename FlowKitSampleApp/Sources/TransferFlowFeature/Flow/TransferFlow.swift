@@ -5,11 +5,11 @@ public final class TransferFlow {
     private let transferRepository: TransferRepository
 
     private lazy var flowNavigator = TransferFlowNavigator(navigator: navigator)
-    private lazy var flowStepTransformer = TransferFlowStepTransformer()
-    private lazy var flowStateTransformer = TransferFlowStateTransformer(transferRepository: transferRepository)
+    private lazy var stepTransformer = TransferFlowStepTransformer()
+    private lazy var stateReducer = TransferFlowStateReducer(transferRepository: transferRepository)
     private lazy var flow = Flow(navigator: flowNavigator,
-                                 stepTransformer: flowStepTransformer,
-                                 stateTransformer: flowStateTransformer)
+                                 stepTransformer: stepTransformer,
+                                 stateReducer: stateReducer)
 
     init(navigator: RouteNavigator, transferRepository: TransferRepository) {
         self.navigator = navigator
@@ -17,6 +17,6 @@ public final class TransferFlow {
     }
 
     public func start(with country: Country) -> FlowPromise<Transfer> {
-        return flow.start(step: .amountRequired, state: .country(country))
+        return flow.start(step: .amountRequired, with: .country(country))
     }
 }

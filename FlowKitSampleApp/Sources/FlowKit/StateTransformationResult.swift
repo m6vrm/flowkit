@@ -1,4 +1,4 @@
-public enum StateTransformationResult<TransformedState, FlowResult> {
-    case `continue`(TransformedState)
+public enum ReducedState<ReducedState, FlowResult> {
+    case `continue`(ReducedState)
     case finish(FlowResult)
 }

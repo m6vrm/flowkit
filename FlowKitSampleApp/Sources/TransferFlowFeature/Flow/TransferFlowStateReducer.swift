@@ -1,6 +1,6 @@
 import FlowKit
 
-final class TransferFlowStateTransformer {
+final class TransferFlowStateReducer {
     private let transferRepository: TransferRepository
 
     init(transferRepository: TransferRepository) {
@@ -8,9 +8,9 @@ final class TransferFlowStateTransformer {
     }
 }
 
-extension TransferFlowStateTransformer: FlowStateTransformer {
-    func transform(state: TransferFlowState, for step: TransferFlowStep)
-        -> FlowPromise<StateTransformationResult<TransferFlowState, Transfer>> {
+extension TransferFlowStateReducer: FlowStateReducer {
+    func reduce(state: TransferFlowState, with step: TransferFlowStep)
+        -> FlowPromise<ReducedState<TransferFlowState, Transfer>> {
 
         switch (step, state) {
         case (.amountComplete(let amount), .country(let country)):

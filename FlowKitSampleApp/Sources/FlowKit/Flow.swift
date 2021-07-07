@@ -1,38 +1,38 @@
 public struct Flow<Result,
                    Navigator: FlowNavigator,
                    StepTransformer: FlowStepTransformer,
-                   StateTransformer: FlowStateTransformer>
+                   StateReducer: FlowStateReducer>
 
     where Navigator.Step == StepTransformer.Step,
           Navigator.State == StepTransformer.State,
-          StateTransformer.Step == StepTransformer.Step,
-          StateTransformer.State == StepTransformer.State,
-          StateTransformer.Result == Result {
+          StateReducer.Step == StepTransformer.Step,
+          StateReducer.State == StepTransformer.State,
+          StateReducer.Result == Result {
 
     private let navigator: Navigator
     private let stepTransformer: StepTransformer
-    private let stateTransformer: StateTransformer
+    private let stateReducer: StateReducer
 
     public init(navigator: Navigator,
                 stepTransformer: StepTransformer,
-                stateTransformer: StateTransformer) {
+                stateReducer: StateReducer) {
 
         self.navigator = navigator
         self.stepTransformer = stepTransformer
-        self.stateTransformer = stateTransformer
+        self.stateReducer = stateReducer
     }
 
-    public func start(step: Navigator.Step, state: StateTransformer.State) -> FlowPromise<Result> {
+    public func start(step: Navigator.Step, with state: StateReducer.State) -> FlowPromise<Result> {
         return FlowPromise { completion in
-            zip(stateTransformer.transform(state: state, for: step),
+            zip(stateReducer.reduce(state: state, with: step),
                 stepTransformer.transform(step: step, with: state))
                 .complete {
-                    let (stateTransformationResult, transformedStep) = $0
+                    let (reducedState, transformedStep) = $0
 
-                    switch stateTransformationResult {
-                    case .continue(let transformedState):
-                        navigator.navigate(to: transformedStep, with: transformedState)
-                            .then { start(step: $0, state: transformedState) }
+                    switch reducedState {
+                    case .continue(let reducedState):
+                        navigator.navigate(to: transformedStep, with: reducedState)
+                            .then { start(step: $0, with: reducedState) }
                             .complete(using: completion)
                     case .finish(let result):
                         completion(result)
