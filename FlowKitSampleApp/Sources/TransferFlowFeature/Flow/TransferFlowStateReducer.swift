@@ -21,7 +21,6 @@ extension TransferFlowStateReducer: FlowStateReducer {
               .tariff(let tariff, let amount, let country)):
             return .promise { completion in
                 loadingPublisher.value = true
-
                 self.transferRepository.createTransfer(country: country, amount: amount, tariff: tariff) {
                     completion(.continue(.transfer($0)))
                     loadingPublisher.value = false

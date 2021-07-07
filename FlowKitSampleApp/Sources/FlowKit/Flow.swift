@@ -24,14 +24,12 @@ public struct Flow<Result,
 
     public func start(step: Navigator.Step, with state: StateReducer.State) -> FlowPromise<Result> {
         return FlowPromise { completion in
-            zip(stateReducer.reduce(state: state, with: step),
-                stepTransformer.transform(step: step, with: state))
+            stateReducer.reduce(state: state, with: step)
                 .complete {
-                    let (reducedState, transformedStep) = $0
-
-                    switch reducedState {
+                    switch $0 {
                     case .continue(let reducedState):
-                        navigator.navigate(to: transformedStep, with: reducedState)
+                        stepTransformer.transform(step: step, with: state)
+                            .then { navigator.navigate(to: $0, with: reducedState) }
                             .then { start(step: $0, with: reducedState) }
                             .complete(using: completion)
                     case .finish(let result):
