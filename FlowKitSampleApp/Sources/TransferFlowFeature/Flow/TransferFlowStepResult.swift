@@ -5,4 +5,5 @@ enum TransferFlowStepResult {
     case tariffs(tariff: Tariff)
     case confirmation(result: ConfirmationResult, loadingPublisher: Publisher<Bool>)
     case success
+    case finish
 }

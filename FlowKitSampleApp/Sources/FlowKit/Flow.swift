@@ -23,7 +23,9 @@ public struct Flow<Result,
         self.stateReducer = stateReducer
     }
 
-    public func start(step: ConcreteStepNavigator.Step, with state: ConcreteStateReducer.State) -> Promise<Result> {
+    public func start(step: ConcreteStepNavigator.Step,
+                      with state: ConcreteStateReducer.State) -> Promise<Result> {
+
         return Promise { completion in
             stepNavigator.navigate(to: step, with: state)
                 .complete { stepResult in
@@ -31,7 +33,7 @@ public struct Flow<Result,
                         .complete {
                             switch $0 {
                             case .continue(let reducedState):
-                                nextStepProvider.next(for: stepResult, with: state)
+                                nextStepProvider.next(for: stepResult, with: reducedState)
                                     .then { start(step: $0, with: reducedState) }
                                     .complete(using: completion)
                             case .finish(let result):

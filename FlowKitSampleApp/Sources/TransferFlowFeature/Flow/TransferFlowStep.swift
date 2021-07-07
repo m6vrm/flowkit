@@ -6,4 +6,5 @@ enum TransferFlowStep {
     case tariffs
     case confirmation
     case success
+    case finish
 }

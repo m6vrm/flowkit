@@ -40,6 +40,11 @@ extension TransferFlowStepNavigator: StepNavigator {
                 self.navigator.forward(to: .success(transfer: transfer,
                                                     completion: { completion(.success) }))
             }
+        case (.finish, _):
+            return .promise {
+                self.navigator.backToRoot()
+                $0(.finish)
+            }
         default:
             return .nothing()
         }

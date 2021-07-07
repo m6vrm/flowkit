@@ -19,6 +19,7 @@ extension TransferFlowStateReducer: StateReducer {
             return .promise(.continue(.tariff(tariff, amount: amount, country: country)))
         case (.confirmation(result: .continue, let loadingPublisher),
               .tariff(let tariff, let amount, let country)):
+
             return .promise { completion in
                 loadingPublisher.value = true
                 self.transferRepository.createTransfer(country: country, amount: amount, tariff: tariff) {
@@ -26,7 +27,7 @@ extension TransferFlowStateReducer: StateReducer {
                     loadingPublisher.value = false
                 }
             }
-        case (_, .transfer(let transfer)):
+        case (.finish, .transfer(let transfer)):
             return .promise(.finish(transfer))
         default:
             return .promise(.continue(state))

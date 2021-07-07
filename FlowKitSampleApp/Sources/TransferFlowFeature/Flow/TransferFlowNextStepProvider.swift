@@ -19,8 +19,10 @@ extension TransferFlowNextStepProvider: NextStepProvider {
             return .promise(.amount)
         case .confirmation(.editTariff, _):
             return .promise(.tariffs)
-        default:
-            return .nothing()
+        case .success:
+            return .promise(.finish)
+        case .finish:
+            return .promise(.finish)
         }
     }
 }

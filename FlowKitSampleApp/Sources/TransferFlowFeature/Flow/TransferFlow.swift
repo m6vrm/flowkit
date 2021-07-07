@@ -7,6 +7,7 @@ public final class TransferFlow {
     private lazy var stepNavigator = TransferFlowStepNavigator(navigator: navigator)
     private lazy var nextStepProvider = TransferFlowNextStepProvider()
     private lazy var stateReducer = TransferFlowStateReducer(transferRepository: transferRepository)
+
     private lazy var flow = Flow(stepNavigator: stepNavigator,
                                  nextStepProvider: nextStepProvider,
                                  stateReducer: stateReducer)

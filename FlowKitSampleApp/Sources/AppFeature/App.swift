@@ -21,8 +21,6 @@ public final class App {
         let transferFlow = transferFlowFactory.makeTransferFlow()
 
         let completion: (Transfer) -> Void = { transfer in
-            navigationController.popToRootViewController(animated: true)
-
             let alert = UIAlertController(title: "Success!",
                                           message: "Created Transfer ID: \(transfer.identifier)",
                                           preferredStyle: .alert)
