@@ -9,4 +9,4 @@
 ## Код
 
 - [Сама библиотека](FlowKitSampleApp/Sources/FlowKit)
-- [Реализация флоу](FlowKitSampleApp/Sources/TransferFlowFeature/Flow/TransferFlow.swift)
+- [Реализация флоу](FlowKitSampleApp/Sources/TransferFlowFeature/Flow)
