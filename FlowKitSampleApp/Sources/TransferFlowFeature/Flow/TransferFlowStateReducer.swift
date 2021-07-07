@@ -9,15 +9,15 @@ final class TransferFlowStateReducer {
 }
 
 extension TransferFlowStateReducer: StateReducer {
-    func reduce(state: TransferFlowState, with step: TransferFlowStep)
+    func reduce(state: TransferFlowState, with stepResult: TransferFlowStepResult)
         -> Promise<ReducedState<TransferFlowState, Transfer>> {
 
-        switch (step, state) {
-        case (.amountComplete(let amount), .country(let country)):
+        switch (stepResult, state) {
+        case (.amount(let amount), .country(let country)):
             return .promise(.continue(.amount(amount, country: country)))
-        case (.tariffsComplete(let tariff), .amount(let amount, let country)):
+        case (.tariffs(let tariff), .amount(let amount, let country)):
             return .promise(.continue(.tariff(tariff, amount: amount, country: country)))
-        case (.confirmationComplete(result: .continue, let loadingPublisher),
+        case (.confirmation(result: .continue, let loadingPublisher),
               .tariff(let tariff, let amount, let country)):
             return .promise { completion in
                 loadingPublisher.value = true

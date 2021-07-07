@@ -3,24 +3,24 @@ import FlowKit
 final class TransferFlowStepResultTransformer { }
 
 extension TransferFlowStepResultTransformer: StepResultTransformer {
-    func transform(stepResult: TransferFlowStep, with state: TransferFlowState) -> Promise<TransferFlowStep> {
+    func transform(stepResult: TransferFlowStepResult, with state: TransferFlowState) -> Promise<TransferFlowStep> {
         switch stepResult {
-        case .amountComplete(let amount):
+        case .amount(let amount):
             if amount < 100 {
-                return .promise(.invalidAmountRequired)
+                return .promise(.invalidAmount)
             } else {
-                return .promise(.tariffsRequired)
+                return .promise(.tariffs)
             }
-        case .tariffsComplete:
-            return .promise(.confirmationRequired)
-        case .confirmationComplete(.continue, _):
-            return .promise(.successRequired)
-        case .confirmationComplete(.editAmount, _):
-            return .promise(.amountRequired)
-        case .confirmationComplete(.editTariff, _):
-            return .promise(.tariffsRequired)
+        case .tariffs:
+            return .promise(.confirmation)
+        case .confirmation(.continue, _):
+            return .promise(.success)
+        case .confirmation(.editAmount, _):
+            return .promise(.amount)
+        case .confirmation(.editTariff, _):
+            return .promise(.tariffs)
         default:
-            return .promise(stepResult)
+            return .nothing()
         }
     }
 }

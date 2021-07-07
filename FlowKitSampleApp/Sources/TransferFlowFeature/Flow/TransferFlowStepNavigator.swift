@@ -11,34 +11,34 @@ final class TransferFlowStepNavigator {
 }
 
 extension TransferFlowStepNavigator: StepNavigator {
-    func navigate(to step: TransferFlowStep, with state: TransferFlowState) -> Promise<TransferFlowStep> {
+    func navigate(to step: TransferFlowStep, with state: TransferFlowState) -> Promise<TransferFlowStepResult> {
         switch (step, state) {
-        case (.amountRequired, .country(let country)),
-             (.amountRequired, .tariff(_, _, let country)):
+        case (.amount, .country(let country)),
+             (.amount, .tariff(_, _, let country)):
             return .promise { completion in
                 self.navigator.forward(to: .amount(country: country,
-                                                   completion: { completion(.amountComplete(amount: $0)) }))
+                                                   completion: { completion(.amount(amount: $0)) }))
             }
-        case (.invalidAmountRequired, _):
+        case (.invalidAmount, _):
             return .promise { _ in self.navigator.forward(to: .invalidAmount) }
-        case (.tariffsRequired, _):
+        case (.tariffs, _):
             return .promise { completion in
-                self.navigator.forward(to: .tariffs(completion: { completion(.tariffsComplete(tariff: $0)) }))
+                self.navigator.forward(to: .tariffs(completion: { completion(.tariffs(tariff: $0)) }))
             }
-        case (.confirmationRequired, .tariff(let tariff, let amount, let country)):
+        case (.confirmation, .tariff(let tariff, let amount, let country)):
             return .promise { completion in
                 let loadingPublisher = Publisher<Bool>()
                 self.navigator.forward(to: .confirmation(loadingPublisher: loadingPublisher,
                                                          country: country,
                                                          amount: amount,
                                                          tariff: tariff,
-                                                         completion: { completion(.confirmationComplete(result: $0,
+                                                         completion: { completion(.confirmation(result: $0,
                                                                                                         loadingPublisher: loadingPublisher)) }))
             }
-        case (.successRequired, .transfer(let transfer)):
+        case (.success, .transfer(let transfer)):
             return .promise { completion in
                 self.navigator.forward(to: .success(transfer: transfer,
-                                                    completion: { completion(.successComplete) }))
+                                                    completion: { completion(.success) }))
             }
         default:
             return .nothing()
