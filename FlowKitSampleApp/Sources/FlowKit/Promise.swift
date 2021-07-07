@@ -3,7 +3,7 @@ public struct Promise<Output> {
 
     private let work: (@escaping Completion) -> Void
 
-    public init(work: @escaping (@escaping Completion) -> Void) {
+    init(work: @escaping (@escaping Completion) -> Void) {
         self.work = work
     }
 
@@ -11,8 +11,8 @@ public struct Promise<Output> {
         return Self { $0(value) }
     }
 
-    public static func promise(_ handler: @escaping (@escaping (Output) -> Void) -> Void) -> Self {
-        return Self { completion in handler { completion($0) } }
+    public static func promise(_ work: @escaping (@escaping (Output) -> Void) -> Void) -> Self {
+        return Self { completion in work { completion($0) } }
     }
 
     public static func nothing() -> Self {
