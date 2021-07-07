@@ -1,9 +1,9 @@
 import FlowKit
 
-final class TransferFlowStepResultTransformer { }
+final class TransferFlowNextStepProvider { }
 
-extension TransferFlowStepResultTransformer: StepResultTransformer {
-    func transform(stepResult: TransferFlowStepResult, with state: TransferFlowState) -> Promise<TransferFlowStep> {
+extension TransferFlowNextStepProvider: NextStepProvider {
+    func next(for stepResult: TransferFlowStepResult, with state: TransferFlowState) -> Promise<TransferFlowStep> {
         switch stepResult {
         case .amount(let amount):
             if amount < 100 {

@@ -1,25 +1,25 @@
 public struct Flow<Result,
                    ConcreteStepNavigator: StepNavigator,
-                   ConcreteStepResultTransformer: StepResultTransformer,
+                   ConcreteNextStepProvider: NextStepProvider,
                    ConcreteStateReducer: StateReducer>
 
-    where ConcreteStepNavigator.Step == ConcreteStepResultTransformer.Step,
-          ConcreteStepNavigator.State == ConcreteStepResultTransformer.State,
-          ConcreteStepNavigator.StepResult == ConcreteStepResultTransformer.StepResult,
-          ConcreteStateReducer.StepResult == ConcreteStepResultTransformer.StepResult,
-          ConcreteStateReducer.State == ConcreteStepResultTransformer.State,
+    where ConcreteStepNavigator.Step == ConcreteNextStepProvider.Step,
+          ConcreteStepNavigator.State == ConcreteNextStepProvider.State,
+          ConcreteStepNavigator.StepResult == ConcreteNextStepProvider.StepResult,
+          ConcreteStateReducer.StepResult == ConcreteNextStepProvider.StepResult,
+          ConcreteStateReducer.State == ConcreteNextStepProvider.State,
           ConcreteStateReducer.Result == Result {
 
     private let stepNavigator: ConcreteStepNavigator
-    private let stepResultTransformer: ConcreteStepResultTransformer
+    private let nextStepProvider: ConcreteNextStepProvider
     private let stateReducer: ConcreteStateReducer
 
     public init(stepNavigator: ConcreteStepNavigator,
-                stepResultTransformer: ConcreteStepResultTransformer,
+                nextStepProvider: ConcreteNextStepProvider,
                 stateReducer: ConcreteStateReducer) {
 
         self.stepNavigator = stepNavigator
-        self.stepResultTransformer = stepResultTransformer
+        self.nextStepProvider = nextStepProvider
         self.stateReducer = stateReducer
     }
 
@@ -31,7 +31,7 @@ public struct Flow<Result,
                         .complete {
                             switch $0 {
                             case .continue(let reducedState):
-                                stepResultTransformer.transform(stepResult: stepResult, with: state)
+                                nextStepProvider.next(for: stepResult, with: state)
                                     .then { start(step: $0, with: reducedState) }
                                     .complete(using: completion)
                             case .finish(let result):

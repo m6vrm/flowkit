@@ -5,10 +5,10 @@ public final class TransferFlow {
     private let transferRepository: TransferRepository
 
     private lazy var stepNavigator = TransferFlowStepNavigator(navigator: navigator)
-    private lazy var stepResultTransformer = TransferFlowStepResultTransformer()
+    private lazy var nextStepProvider = TransferFlowNextStepProvider()
     private lazy var stateReducer = TransferFlowStateReducer(transferRepository: transferRepository)
     private lazy var flow = Flow(stepNavigator: stepNavigator,
-                                 stepResultTransformer: stepResultTransformer,
+                                 nextStepProvider: nextStepProvider,
                                  stateReducer: stateReducer)
 
     init(navigator: RouteNavigator, transferRepository: TransferRepository) {
