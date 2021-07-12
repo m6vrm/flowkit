@@ -3,6 +3,10 @@ public struct Promise<Output> {
 
     private let work: (@escaping Completion) -> Void
 
+    public static var nothing: Self {
+        return Self { _ in }
+    }
+
     init(work: @escaping (@escaping Completion) -> Void) {
         self.work = work
     }
@@ -15,9 +19,6 @@ public struct Promise<Output> {
         return Self { completion in work { completion($0) } }
     }
 
-    public static func nothing() -> Self {
-        return Self { _ in }
-    }
 
     public func then<NewOutput>(_ builder: @escaping (Output) -> Promise<NewOutput>) -> Promise<NewOutput> {
         return Promise<NewOutput> { completion in

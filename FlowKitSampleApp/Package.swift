@@ -40,6 +40,9 @@ let package = Package(
         .target(
             name: "TransferFlowFeature",
             dependencies: ["NavigationKit", "FlowKit", "PromiseKit"]),
+        .testTarget(
+            name: "TransferFlowFeatureTests",
+            dependencies: ["TransferFlowFeature"]),
         .target(
             name: "AppFeature",
             dependencies: ["NavigationKit", "FlowKit", "TransferFlowFeature"]),

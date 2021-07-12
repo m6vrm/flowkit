@@ -46,7 +46,7 @@ extension TransferFlowStepNavigator: StepNavigator {
                 $0(.finish)
             }
         default:
-            return .nothing()
+            return .nothing
         }
     }
 }

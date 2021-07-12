@@ -1,32 +1,39 @@
 public struct Flow<Result,
+                   ConcreteStepOverrider: StepOverrider,
                    ConcreteStepNavigator: StepNavigator,
-                   ConcreteNextStepProvider: NextStepProvider,
-                   ConcreteStateReducer: StateReducer>
+                   ConcreteStateReducer: StateReducer,
+                   ConcreteNextStepProvider: NextStepProvider>
 
-    where ConcreteStepNavigator.Step == ConcreteNextStepProvider.Step,
+    where ConcreteStepOverrider.Step == ConcreteNextStepProvider.Step,
+          ConcreteStepOverrider.State == ConcreteNextStepProvider.State,
+          ConcreteStepNavigator.Step == ConcreteNextStepProvider.Step,
           ConcreteStepNavigator.State == ConcreteNextStepProvider.State,
           ConcreteStepNavigator.StepResult == ConcreteNextStepProvider.StepResult,
           ConcreteStateReducer.StepResult == ConcreteNextStepProvider.StepResult,
           ConcreteStateReducer.State == ConcreteNextStepProvider.State,
           ConcreteStateReducer.Result == Result {
 
+    private let stepOverrider: ConcreteStepOverrider
     private let stepNavigator: ConcreteStepNavigator
-    private let nextStepProvider: ConcreteNextStepProvider
     private let stateReducer: ConcreteStateReducer
+    private let nextStepProvider: ConcreteNextStepProvider
 
-    public init(stepNavigator: ConcreteStepNavigator,
-                nextStepProvider: ConcreteNextStepProvider,
-                stateReducer: ConcreteStateReducer) {
+    public init(stepOverrider: ConcreteStepOverrider,
+                stepNavigator: ConcreteStepNavigator,
+                stateReducer: ConcreteStateReducer,
+                nextStepProvider: ConcreteNextStepProvider) {
 
+        self.stepOverrider = stepOverrider
         self.stepNavigator = stepNavigator
-        self.nextStepProvider = nextStepProvider
         self.stateReducer = stateReducer
+        self.nextStepProvider = nextStepProvider
     }
 
     public func start(from step: ConcreteStepNavigator.Step,
                       with state: ConcreteStateReducer.State) -> Promise<Result> {
 
-        return stepNavigator.navigate(to: step, with: state)
+        return stepOverrider.override(step: step, with: state)
+            .then { stepNavigator.navigate(to: $0, with: state) }
             .then { `continue`(from: $0, with: state) }
     }
 
