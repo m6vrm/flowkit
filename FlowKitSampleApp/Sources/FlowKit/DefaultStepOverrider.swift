@@ -3,7 +3,7 @@ public final class DefaultStepOverrider<Step, State> {
 }
 
 extension DefaultStepOverrider: StepOverrider {
-    public func override(step: Step, with: State) -> Promise<Step> {
+    public func override(step: Step, with state: State) -> Promise<Step> {
         return .promise(step)
     }
 }
