@@ -18,6 +18,6 @@ public final class TransferFlow {
     }
 
     public func start(with country: Country) -> Promise<Transfer> {
-        return flow.start(step: .amount, with: .country(country))
+        return flow.start(from: .amount, with: .country(country))
     }
 }

@@ -28,4 +28,8 @@ public struct Promise<Output> {
     public func complete(using completion: @escaping Completion) {
         work { completion($0) }
     }
+
+    public func complete() {
+        complete { _ in }
+    }
 }
