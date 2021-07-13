@@ -158,15 +158,13 @@ private extension TransferFlowTests {
                                                                 TransferFlowState,
                                                                 TransferFlowStepResult>)
         -> Flow<Transfer,
-                DefaultStepOverrider<TransferFlowStep, TransferFlowState>,
                 RecordingStepNavigator<TransferFlowStep,
                                        TransferFlowState,
                                        TransferFlowStepResult>,
                 TransferFlowStateReducer,
                 TransferFlowNextStepProvider> {
 
-        return Flow(stepOverrider: DefaultStepOverrider(),
-                    stepNavigator: stepNavigator,
+        return Flow(stepNavigator: stepNavigator,
                     stateReducer: stateReducer,
                     nextStepProvider: nextStepProvider)
     }

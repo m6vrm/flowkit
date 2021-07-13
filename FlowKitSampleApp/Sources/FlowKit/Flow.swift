@@ -1,29 +1,23 @@
 public struct Flow<Result,
-                   ConcreteStepOverrider: StepOverrider,
                    ConcreteStepNavigator: StepNavigator,
                    ConcreteStateReducer: StateReducer,
                    ConcreteNextStepProvider: NextStepProvider>
 
-    where ConcreteStepOverrider.Step == ConcreteNextStepProvider.Step,
-          ConcreteStepOverrider.State == ConcreteNextStepProvider.State,
-          ConcreteStepNavigator.Step == ConcreteNextStepProvider.Step,
+    where ConcreteStepNavigator.Step == ConcreteNextStepProvider.Step,
           ConcreteStepNavigator.State == ConcreteNextStepProvider.State,
           ConcreteStepNavigator.StepResult == ConcreteNextStepProvider.StepResult,
           ConcreteStateReducer.StepResult == ConcreteNextStepProvider.StepResult,
           ConcreteStateReducer.State == ConcreteNextStepProvider.State,
           ConcreteStateReducer.Result == Result {
 
-    private let stepOverrider: ConcreteStepOverrider
     private let stepNavigator: ConcreteStepNavigator
     private let stateReducer: ConcreteStateReducer
     private let nextStepProvider: ConcreteNextStepProvider
 
-    public init(stepOverrider: ConcreteStepOverrider,
-                stepNavigator: ConcreteStepNavigator,
+    public init(stepNavigator: ConcreteStepNavigator,
                 stateReducer: ConcreteStateReducer,
                 nextStepProvider: ConcreteNextStepProvider) {
 
-        self.stepOverrider = stepOverrider
         self.stepNavigator = stepNavigator
         self.stateReducer = stateReducer
         self.nextStepProvider = nextStepProvider
@@ -32,8 +26,7 @@ public struct Flow<Result,
     public func start(from step: ConcreteStepNavigator.Step,
                       with state: ConcreteStateReducer.State) -> Promise<Result> {
 
-        return stepOverrider.override(step: step, with: state)
-            .then { stepNavigator.navigate(to: $0, with: state) }
+        return stepNavigator.navigate(to: step, with: state)
             .then { `continue`(from: $0, with: state) }
     }
 
