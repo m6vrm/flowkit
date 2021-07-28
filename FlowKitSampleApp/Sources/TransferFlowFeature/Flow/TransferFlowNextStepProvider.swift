@@ -22,7 +22,7 @@ extension TransferFlowNextStepProvider: NextStepProvider {
         case .success:
             return .promise(.finish)
         case .finish:
-            return .promise(.finish)
+            return .nothing
         }
     }
 }
