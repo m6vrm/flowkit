@@ -24,9 +24,9 @@ private extension TransferFlowTransitionProvider {
                 next { forward(to: .confirmation) }
             }
             step(.confirmation) {
-                on(confirmationContinue) { forward(to: .success) }
-                on(confirmationEditAmount) { forward(to: .amount) }
-                on(confirmationEditTariff) { forward(to: .tariffs) }
+                on(confirmation(.continue)) { forward(to: .success) }
+                on(confirmation(.editAmount)) { forward(to: .amount) }
+                on(confirmation(.editTariff)) { forward(to: .tariffs) }
             }
             step(.success) {
                 next { forward(to: .finish) }
@@ -34,20 +34,15 @@ private extension TransferFlowTransitionProvider {
         }
     }
 
-    // bullshit...
     static func invalidAmount(_ stepResult: TransferFlowStepResult, _ state: TransferFlowState) -> Bool {
         if case .amount(let amount) = stepResult { return amount < 100 } else { return false }
     }
 
-    static func confirmationContinue(_ stepResult: TransferFlowStepResult, _ state: TransferFlowState) -> Bool {
-        if case .confirmation(.continue, _) = stepResult { return true } else { return false }
-    }
+    static func confirmation(_ confirmationResult: ConfirmationResult)
+        -> (TransferFlowStepResult, TransferFlowState) -> Bool {
 
-    static func confirmationEditAmount(_ stepResult: TransferFlowStepResult, _ state: TransferFlowState) -> Bool {
-        if case .confirmation(.editAmount, _) = stepResult { return true } else { return false }
-    }
-
-    static func confirmationEditTariff(_ stepResult: TransferFlowStepResult, _ state: TransferFlowState) -> Bool {
-        if case .confirmation(.editTariff, _) = stepResult { return true } else { return false }
+        return { stepResult, _ in
+            if case .confirmation(confirmationResult, _) = stepResult { return true } else { return false }
+        }
     }
 }
