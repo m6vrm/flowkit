@@ -1,4 +1,4 @@
-public protocol NextStepProvider {
+public protocol TransitionProvider {
     associatedtype Step
     associatedtype StepResult
     associatedtype State

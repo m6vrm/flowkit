@@ -1,26 +1,26 @@
 public struct Flow<Result,
                    ConcreteStepNavigator: StepNavigator,
                    ConcreteStateReducer: StateReducer,
-                   ConcreteNextStepProvider: NextStepProvider>
+                   ConcreteTransitionProvider: TransitionProvider>
 
-    where ConcreteStepNavigator.Step == ConcreteNextStepProvider.Step,
-          ConcreteStepNavigator.State == ConcreteNextStepProvider.State,
-          ConcreteStepNavigator.StepResult == ConcreteNextStepProvider.StepResult,
-          ConcreteStateReducer.StepResult == ConcreteNextStepProvider.StepResult,
-          ConcreteStateReducer.State == ConcreteNextStepProvider.State,
+    where ConcreteStepNavigator.Step == ConcreteTransitionProvider.Step,
+          ConcreteStepNavigator.State == ConcreteTransitionProvider.State,
+          ConcreteStepNavigator.StepResult == ConcreteTransitionProvider.StepResult,
+          ConcreteStateReducer.StepResult == ConcreteTransitionProvider.StepResult,
+          ConcreteStateReducer.State == ConcreteTransitionProvider.State,
           ConcreteStateReducer.Result == Result {
 
     private let stepNavigator: ConcreteStepNavigator
     private let stateReducer: ConcreteStateReducer
-    private let nextStepProvider: ConcreteNextStepProvider
+    private let transitionProvider: ConcreteTransitionProvider
 
     public init(stepNavigator: ConcreteStepNavigator,
                 stateReducer: ConcreteStateReducer,
-                nextStepProvider: ConcreteNextStepProvider) {
+                transitionProvider: ConcreteTransitionProvider) {
 
         self.stepNavigator = stepNavigator
         self.stateReducer = stateReducer
-        self.nextStepProvider = nextStepProvider
+        self.transitionProvider = transitionProvider
     }
 
     public func start(from step: ConcreteStepNavigator.Step,
@@ -30,7 +30,7 @@ public struct Flow<Result,
             .then { `continue`(from: step, for: $0, with: state) }
     }
 
-    public func `continue`(from step: ConcreteNextStepProvider.Step,
+    public func `continue`(from step: ConcreteTransitionProvider.Step,
                            for stepResult: ConcreteStepNavigator.StepResult,
                            with state: ConcreteStateReducer.State) -> Promise<Result> {
 
@@ -39,7 +39,7 @@ public struct Flow<Result,
                 .complete {
                     switch $0 {
                     case .continue(let reducedState):
-                        nextStepProvider.next(from: step, for: stepResult, with: reducedState)
+                        transitionProvider.next(from: step, for: stepResult, with: reducedState)
                             .then { start(from: $0, with: reducedState) }
                             .complete(using: completion)
                     case .finish(let result):

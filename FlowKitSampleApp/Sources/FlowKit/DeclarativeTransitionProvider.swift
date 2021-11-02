@@ -1,4 +1,4 @@
-public final class DeclarativeNextStepProvider<Step: Equatable, StepResult, State> {
+public final class DeclarativeTransitionProvider<Step: Equatable, StepResult, State> {
     private let flowDSL: FlowDSL.Flow<Step, StepResult, State>
 
     public init(flowDSL: FlowDSL.Flow<Step, StepResult, State>) {
@@ -6,7 +6,7 @@ public final class DeclarativeNextStepProvider<Step: Equatable, StepResult, Stat
     }
 }
 
-extension DeclarativeNextStepProvider: NextStepProvider {
+extension DeclarativeTransitionProvider: TransitionProvider {
     public func next(from step: Step, for stepResult: StepResult, with state: State) -> Promise<Step> {
         return flowDSL
             .steps

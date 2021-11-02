@@ -6,7 +6,7 @@ import XCTest
 
 final class TransferFlowTests: XCTestCase {
     private lazy var transferRepository = RandomTransferRepositoryMock()
-    private lazy var nextStepProvider = TransferFlowNextStepProvider()
+    private lazy var transitionProvider = TransferFlowTransitionProvider()
     private lazy var stateReducer = TransferFlowStateReducer(transferRepository: transferRepository)
 
     func testTransferFlow() {
@@ -162,10 +162,10 @@ private extension TransferFlowTests {
                                        TransferFlowState,
                                        TransferFlowStepResult>,
                 TransferFlowStateReducer,
-                TransferFlowNextStepProvider> {
+                TransferFlowTransitionProvider> {
 
         return Flow(stepNavigator: stepNavigator,
                     stateReducer: stateReducer,
-                    nextStepProvider: nextStepProvider)
+                    transitionProvider: transitionProvider)
     }
 }

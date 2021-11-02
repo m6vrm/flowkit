@@ -1,19 +1,19 @@
 import FlowKit
 
-final class TransferFlowNextStepProvider {
-    private lazy var declarativeNextStepProvider = DeclarativeNextStepProvider(flowDSL: Self.makeFlowDSL())
+final class TransferFlowTransitionProvider {
+    private lazy var declarativeTransitionProvider = DeclarativeTransitionProvider(flowDSL: Self.makeFlowDSL())
 }
 
-extension TransferFlowNextStepProvider: NextStepProvider, FlowDSLBuilder {
+extension TransferFlowTransitionProvider: TransitionProvider, FlowDSLBuilder {
     func next(from step: TransferFlowStep,
               for stepResult: TransferFlowStepResult,
               with state: TransferFlowState) -> Promise<TransferFlowStep> {
 
-        return declarativeNextStepProvider.next(from: step, for: stepResult, with: state)
+        return declarativeTransitionProvider.next(from: step, for: stepResult, with: state)
     }
 }
 
-extension TransferFlowNextStepProvider {
+extension TransferFlowTransitionProvider {
     static func makeFlowDSL() -> FlowDSL.Flow<TransferFlowStep, TransferFlowStepResult, TransferFlowState> {
         return FlowDSL.Flow {
             step(.amount) {
