@@ -21,17 +21,18 @@ extension FlowDSLBuilder {
         return FlowDSL.On(predicate: predicate, transition: transition())
     }
 
-    public static func transition(_ step: Step) -> Transition {
-        return FlowDSL.Transition(step: step)
-    }
-
     public static func next(@FlowDSL.TransitionBuilder transition: () -> Transition) -> On {
         return FlowDSL.On(predicate: { _, _ in true }, transition: transition())
     }
 
+    public static func transition(_ step: Step) -> Transition {
+        return FlowDSL.Transition(step: step)
+    }
+}
+
+extension FlowDSLBuilder where StepResult: Equatable {
     public static func on(_ expectedStepResult: StepResult,
-                          @FlowDSL.TransitionBuilder transition: () -> Transition)
-        -> On where StepResult: Equatable {
+                          @FlowDSL.TransitionBuilder transition: () -> Transition) -> On {
 
         return FlowDSL.On(predicate: { stepResult, _ in stepResult == expectedStepResult }, transition: transition())
     }
@@ -39,7 +40,7 @@ extension FlowDSLBuilder {
     public static func on(_ expectedStepResult: StepResult,
                           _ expectedState: State,
                           @FlowDSL.TransitionBuilder transition: () -> Transition)
-        -> On where StepResult: Equatable, State: Equatable {
+        -> On where State: Equatable {
 
         return FlowDSL.On(predicate: { $0 == expectedStepResult && $1 == expectedState },
                           transition: transition())

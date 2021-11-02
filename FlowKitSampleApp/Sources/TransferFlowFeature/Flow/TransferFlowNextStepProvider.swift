@@ -34,6 +34,7 @@ extension TransferFlowNextStepProvider {
         }
     }
 
+    // bullshit...
     static func invalidAmount(_ stepResult: TransferFlowStepResult, _ state: TransferFlowState) -> Bool {
         if case .amount(let amount) = stepResult { return amount < 100 } else { return false }
     }
