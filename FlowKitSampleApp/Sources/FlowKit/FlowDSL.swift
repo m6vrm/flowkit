@@ -1,8 +1,4 @@
 public enum FlowDSL {
-    public struct Transition<Step> {
-        let step: Step
-    }
-
     @resultBuilder
     public struct TransitionBuilder {
         public static func buildBlock<Step>(_ component: Transition<Step>) -> Transition<Step> {

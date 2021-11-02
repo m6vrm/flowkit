@@ -3,5 +3,5 @@ public protocol TransitionNavigator {
     associatedtype State
     associatedtype StepResult
 
-    func navigate(to: Step, with: State) -> Promise<StepResult>
+    func navigate(using: Transition<Step>, with: State) -> Promise<StepResult>
 }

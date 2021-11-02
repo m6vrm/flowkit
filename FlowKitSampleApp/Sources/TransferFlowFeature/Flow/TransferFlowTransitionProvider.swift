@@ -7,29 +7,29 @@ final class TransferFlowTransitionProvider {
 extension TransferFlowTransitionProvider: TransitionProvider, FlowDSLBuilder {
     func transition(from step: TransferFlowStep,
                     with stepResult: TransferFlowStepResult,
-                    state: TransferFlowState) -> Promise<TransferFlowStep> {
+                    state: TransferFlowState) -> Promise<Transition<TransferFlowStep>> {
 
         return declarativeTransitionProvider.transition(from: step, with: stepResult, state: state)
     }
 }
 
-extension TransferFlowTransitionProvider {
+private extension TransferFlowTransitionProvider {
     static func makeFlowDSL() -> FlowDSL.Flow<TransferFlowStep, TransferFlowStepResult, TransferFlowState> {
         return FlowDSL.Flow {
             step(.amount) {
-                on(invalidAmount) { transition(.invalidAmount) }
-                next { transition(.tariffs) }
+                on(invalidAmount) { forward(to: .invalidAmount) }
+                next { forward(to: .tariffs) }
             }
             step(.tariffs) {
-                next { transition(.confirmation) }
+                next { forward(to: .confirmation) }
             }
             step(.confirmation) {
-                on(confirmationContinue) { transition(.success) }
-                on(confirmationEditAmount) { transition(.amount) }
-                on(confirmationEditTariff) { transition(.tariffs) }
+                on(confirmationContinue) { forward(to: .success) }
+                on(confirmationEditAmount) { forward(to: .amount) }
+                on(confirmationEditTariff) { forward(to: .tariffs) }
             }
             step(.success) {
-                next { transition(.finish) }
+                next { forward(to: .finish) }
             }
         }
     }

@@ -11,7 +11,11 @@ final class TransferFlowTransitionNavigator {
 }
 
 extension TransferFlowTransitionNavigator: TransitionNavigator {
-    func navigate(to step: TransferFlowStep, with state: TransferFlowState) -> Promise<TransferFlowStepResult> {
+    func navigate(using transition: Transition<TransferFlowStep>,
+                  with state: TransferFlowState) -> Promise<TransferFlowStepResult> {
+
+        guard case .forwardTo(let step) = transition else { return .nothing }
+
         switch (step, state) {
         case (.amount, .country(let country)),
              (.amount, .tariff(_, _, let country)):
