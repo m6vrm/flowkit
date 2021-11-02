@@ -2,7 +2,7 @@ import FlowKit
 import NavigationKit
 import PromiseKit
 
-final class TransferFlowStepNavigator {
+final class TransferFlowTransitionNavigator {
     private let navigator: RouteNavigator
 
     init(navigator: RouteNavigator) {
@@ -10,7 +10,7 @@ final class TransferFlowStepNavigator {
     }
 }
 
-extension TransferFlowStepNavigator: StepNavigator {
+extension TransferFlowTransitionNavigator: TransitionNavigator {
     func navigate(to step: TransferFlowStep, with state: TransferFlowState) -> Promise<TransferFlowStepResult> {
         switch (step, state) {
         case (.amount, .country(let country)),

@@ -1,4 +1,4 @@
-public protocol StepNavigator {
+public protocol TransitionNavigator {
     associatedtype Step
     associatedtype State
     associatedtype StepResult

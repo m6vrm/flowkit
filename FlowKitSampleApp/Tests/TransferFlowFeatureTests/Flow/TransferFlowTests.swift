@@ -14,7 +14,7 @@ final class TransferFlowTests: XCTestCase {
         let amount = 100
         let comission = 50
 
-        let stepNavigator = makeStepNavigator { step, state in
+        let transitionNavigator = makeTransitionNavigator { step, state in
             switch step {
             case .amount: return .amount(amount: amount)
             case .tariffs: return .tariffs(tariff: Tariff(comission: comission))
@@ -25,7 +25,7 @@ final class TransferFlowTests: XCTestCase {
             }
         }
 
-        let flow = makeTransferFlow(stepNavigator: stepNavigator)
+        let flow = makeTransferFlow(transitionNavigator: transitionNavigator)
         let expectation = expectation(description: "waiting for flow")
 
         flow
@@ -40,7 +40,7 @@ final class TransferFlowTests: XCTestCase {
 
         wait(for: [expectation], timeout: 1)
 
-        XCTAssertEqual(stepNavigator.steps, [
+        XCTAssertEqual(transitionNavigator.steps, [
             .amount,
             .tariffs,
             .confirmation,
@@ -54,7 +54,7 @@ final class TransferFlowTests: XCTestCase {
         let amount = 50
         let comission = 50
 
-        let stepNavigator = makeStepNavigator { step, state in
+        let transitionNavigator = makeTransitionNavigator { step, state in
             switch step {
             case .amount: return .amount(amount: amount)
             case .tariffs: return .tariffs(tariff: Tariff(comission: comission))
@@ -65,13 +65,13 @@ final class TransferFlowTests: XCTestCase {
             }
         }
 
-        let flow = makeTransferFlow(stepNavigator: stepNavigator)
+        let flow = makeTransferFlow(transitionNavigator: transitionNavigator)
 
         flow
             .start(from: .amount, with: .country(country))
             .complete()
 
-        XCTAssertEqual(stepNavigator.steps, [
+        XCTAssertEqual(transitionNavigator.steps, [
             .amount,
             .invalidAmount,
         ])
@@ -83,7 +83,7 @@ final class TransferFlowTests: XCTestCase {
         let comission = 50
         var editAmount = true
 
-        let stepNavigator = makeStepNavigator { step, state in
+        let transitionNavigator = makeTransitionNavigator { step, state in
             switch step {
             case .amount: return .amount(amount: amount)
             case .tariffs: return .tariffs(tariff: Tariff(comission: comission))
@@ -95,13 +95,13 @@ final class TransferFlowTests: XCTestCase {
             }
         }
 
-        let flow = makeTransferFlow(stepNavigator: stepNavigator)
+        let flow = makeTransferFlow(transitionNavigator: transitionNavigator)
 
         flow
             .start(from: .amount, with: .country(country))
             .complete()
 
-        XCTAssertEqual(stepNavigator.steps, [
+        XCTAssertEqual(transitionNavigator.steps, [
             .amount,
             .tariffs,
             .confirmation,
@@ -118,7 +118,7 @@ final class TransferFlowTests: XCTestCase {
         let comission = 50
         var editTariff = true
 
-        let stepNavigator = makeStepNavigator { step, state in
+        let transitionNavigator = makeTransitionNavigator { step, state in
             switch step {
             case .amount: return .amount(amount: amount)
             case .tariffs: return .tariffs(tariff: Tariff(comission: comission))
@@ -130,13 +130,13 @@ final class TransferFlowTests: XCTestCase {
             }
         }
 
-        let flow = makeTransferFlow(stepNavigator: stepNavigator)
+        let flow = makeTransferFlow(transitionNavigator: transitionNavigator)
 
         flow
             .start(from: .amount, with: .country(country))
             .complete()
 
-        XCTAssertEqual(stepNavigator.steps, [
+        XCTAssertEqual(transitionNavigator.steps, [
             .amount,
             .tariffs,
             .confirmation,
@@ -148,23 +148,23 @@ final class TransferFlowTests: XCTestCase {
 }
 
 private extension TransferFlowTests {
-    func makeStepNavigator(navigator: @escaping (TransferFlowStep, TransferFlowState) -> TransferFlowStepResult?)
-        -> RecordingStepNavigator<TransferFlowStep, TransferFlowState, TransferFlowStepResult> {
+    func makeTransitionNavigator(navigator: @escaping (TransferFlowStep, TransferFlowState) -> TransferFlowStepResult?)
+        -> RecordingTransitionNavigator<TransferFlowStep, TransferFlowState, TransferFlowStepResult> {
 
-        return RecordingStepNavigator(navigator: navigator)
+        return RecordingTransitionNavigator(navigator: navigator)
     }
 
-    func makeTransferFlow(stepNavigator: RecordingStepNavigator<TransferFlowStep,
+    func makeTransferFlow(transitionNavigator: RecordingTransitionNavigator<TransferFlowStep,
                                                                 TransferFlowState,
                                                                 TransferFlowStepResult>)
         -> Flow<Transfer,
-                RecordingStepNavigator<TransferFlowStep,
+                RecordingTransitionNavigator<TransferFlowStep,
                                        TransferFlowState,
                                        TransferFlowStepResult>,
                 TransferFlowStateReducer,
                 TransferFlowTransitionProvider> {
 
-        return Flow(stepNavigator: stepNavigator,
+        return Flow(transitionNavigator: transitionNavigator,
                     stateReducer: stateReducer,
                     transitionProvider: transitionProvider)
     }

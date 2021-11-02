@@ -4,11 +4,11 @@ public final class TransferFlow {
     private let navigator: RouteNavigator
     private let transferRepository: TransferRepository
 
-    private lazy var stepNavigator = TransferFlowStepNavigator(navigator: navigator)
+    private lazy var transitionNavigator = TransferFlowTransitionNavigator(navigator: navigator)
     private lazy var transitionProvider = TransferFlowTransitionProvider()
     private lazy var stateReducer = TransferFlowStateReducer(transferRepository: transferRepository)
 
-    private lazy var flow = Flow(stepNavigator: stepNavigator,
+    private lazy var flow = Flow(transitionNavigator: transitionNavigator,
                                  stateReducer: stateReducer,
                                  transitionProvider: transitionProvider)
 

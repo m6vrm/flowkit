@@ -1,37 +1,37 @@
 public struct Flow<Result,
-                   ConcreteStepNavigator: StepNavigator,
+                   ConcreteTransitionNavigator: TransitionNavigator,
                    ConcreteStateReducer: StateReducer,
                    ConcreteTransitionProvider: TransitionProvider>
 
-    where ConcreteStepNavigator.Step == ConcreteTransitionProvider.Step,
-          ConcreteStepNavigator.State == ConcreteTransitionProvider.State,
-          ConcreteStepNavigator.StepResult == ConcreteTransitionProvider.StepResult,
+    where ConcreteTransitionNavigator.Step == ConcreteTransitionProvider.Step,
+          ConcreteTransitionNavigator.State == ConcreteTransitionProvider.State,
+          ConcreteTransitionNavigator.StepResult == ConcreteTransitionProvider.StepResult,
           ConcreteStateReducer.StepResult == ConcreteTransitionProvider.StepResult,
           ConcreteStateReducer.State == ConcreteTransitionProvider.State,
           ConcreteStateReducer.Result == Result {
 
-    private let stepNavigator: ConcreteStepNavigator
+    private let transitionNavigator: ConcreteTransitionNavigator
     private let stateReducer: ConcreteStateReducer
     private let transitionProvider: ConcreteTransitionProvider
 
-    public init(stepNavigator: ConcreteStepNavigator,
+    public init(transitionNavigator: ConcreteTransitionNavigator,
                 stateReducer: ConcreteStateReducer,
                 transitionProvider: ConcreteTransitionProvider) {
 
-        self.stepNavigator = stepNavigator
+        self.transitionNavigator = transitionNavigator
         self.stateReducer = stateReducer
         self.transitionProvider = transitionProvider
     }
 
-    public func start(from step: ConcreteStepNavigator.Step,
+    public func start(from step: ConcreteTransitionNavigator.Step,
                       with state: ConcreteStateReducer.State) -> Promise<Result> {
 
-        return stepNavigator.navigate(to: step, with: state)
+        return transitionNavigator.navigate(to: step, with: state)
             .then { `continue`(from: step, for: $0, with: state) }
     }
 
     public func `continue`(from step: ConcreteTransitionProvider.Step,
-                           for stepResult: ConcreteStepNavigator.StepResult,
+                           for stepResult: ConcreteTransitionNavigator.StepResult,
                            with state: ConcreteStateReducer.State) -> Promise<Result> {
 
         return .promise { completion in
