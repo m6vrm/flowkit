@@ -1,28 +1,52 @@
 import FlowKit
 
-final class TransferFlowNextStepProvider { }
+final class TransferFlowNextStepProvider {
+    private lazy var declarativeNextStepProvider = DeclarativeNextStepProvider(flowDSL: Self.makeFlowDSL())
+}
 
-extension TransferFlowNextStepProvider: NextStepProvider {
-    func next(for stepResult: TransferFlowStepResult, with state: TransferFlowState) -> Promise<TransferFlowStep> {
-        switch stepResult {
-        case .amount(let amount):
-            if amount < 100 {
-                return .promise(.invalidAmount)
-            } else {
-                return .promise(.tariffs)
+extension TransferFlowNextStepProvider: NextStepProvider, FlowDSLBuilder {
+    func next(from step: TransferFlowStep,
+              for stepResult: TransferFlowStepResult,
+              with state: TransferFlowState) -> Promise<TransferFlowStep> {
+
+        return declarativeNextStepProvider.next(from: step, for: stepResult, with: state)
+    }
+}
+
+extension TransferFlowNextStepProvider {
+    static func makeFlowDSL() -> FlowDSL.Flow<TransferFlowStep, TransferFlowStepResult, TransferFlowState> {
+        return FlowDSL.Flow {
+            step(.amount) {
+                on(invalidAmount) { transition(.invalidAmount) }
+                next { transition(.tariffs) }
             }
-        case .tariffs:
-            return .promise(.confirmation)
-        case .confirmation(.continue, _):
-            return .promise(.success)
-        case .confirmation(.editAmount, _):
-            return .promise(.amount)
-        case .confirmation(.editTariff, _):
-            return .promise(.tariffs)
-        case .success:
-            return .promise(.finish)
-        case .finish:
-            return .nothing
+            step(.tariffs) {
+                next { transition(.confirmation) }
+            }
+            step(.confirmation) {
+                on(confirmationContinue) { transition(.success) }
+                on(confirmationEditAmount) { transition(.amount) }
+                on(confirmationEditTariff) { transition(.tariffs) }
+            }
+            step(.success) {
+                next { transition(.finish) }
+            }
         }
+    }
+
+    static func invalidAmount(_ stepResult: TransferFlowStepResult, _ state: TransferFlowState) -> Bool {
+        if case .amount(let amount) = stepResult { return amount < 100 } else { return false }
+    }
+
+    static func confirmationContinue(_ stepResult: TransferFlowStepResult, _ state: TransferFlowState) -> Bool {
+        if case .confirmation(.continue, _) = stepResult { return true } else { return false }
+    }
+
+    static func confirmationEditAmount(_ stepResult: TransferFlowStepResult, _ state: TransferFlowState) -> Bool {
+        if case .confirmation(.editAmount, _) = stepResult { return true } else { return false }
+    }
+
+    static func confirmationEditTariff(_ stepResult: TransferFlowStepResult, _ state: TransferFlowState) -> Bool {
+        if case .confirmation(.editTariff, _) = stepResult { return true } else { return false }
     }
 }

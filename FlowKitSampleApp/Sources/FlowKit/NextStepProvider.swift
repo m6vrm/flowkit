@@ -1,7 +1,7 @@
 public protocol NextStepProvider {
+    associatedtype Step
     associatedtype StepResult
     associatedtype State
-    associatedtype Step
 
-    func next(for: StepResult, with: State) -> Promise<Step>
+    func next(from: Step, for: StepResult, with: State) -> Promise<Step>
 }
