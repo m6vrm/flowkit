@@ -39,7 +39,7 @@ public struct Flow<Result,
                 .complete {
                     switch $0 {
                     case .continue(let reducedState):
-                        transitionProvider.next(from: step, for: stepResult, with: reducedState)
+                        transitionProvider.transition(from: step, with: stepResult, state: reducedState)
                             .then { start(from: $0, with: reducedState) }
                             .complete(using: completion)
                     case .finish(let result):

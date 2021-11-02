@@ -7,7 +7,7 @@ public final class DeclarativeTransitionProvider<Step: Equatable, StepResult, St
 }
 
 extension DeclarativeTransitionProvider: TransitionProvider {
-    public func next(from step: Step, for stepResult: StepResult, with state: State) -> Promise<Step> {
+    public func transition(from step: Step, with stepResult: StepResult, state: State) -> Promise<Step> {
         return flowDSL
             .steps
             .first { $0.step == step }?

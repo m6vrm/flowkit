@@ -5,11 +5,11 @@ final class TransferFlowTransitionProvider {
 }
 
 extension TransferFlowTransitionProvider: TransitionProvider, FlowDSLBuilder {
-    func next(from step: TransferFlowStep,
-              for stepResult: TransferFlowStepResult,
-              with state: TransferFlowState) -> Promise<TransferFlowStep> {
+    func transition(from step: TransferFlowStep,
+                    with stepResult: TransferFlowStepResult,
+                    state: TransferFlowState) -> Promise<TransferFlowStep> {
 
-        return declarativeTransitionProvider.next(from: step, for: stepResult, with: state)
+        return declarativeTransitionProvider.transition(from: step, with: stepResult, state: state)
     }
 }
 

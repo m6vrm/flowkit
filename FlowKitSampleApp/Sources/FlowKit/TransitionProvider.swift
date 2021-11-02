@@ -3,5 +3,5 @@ public protocol TransitionProvider {
     associatedtype StepResult
     associatedtype State
 
-    func next(from: Step, for: StepResult, with: State) -> Promise<Step>
+    func transition(from: Step, with: StepResult, state: State) -> Promise<Step>
 }
