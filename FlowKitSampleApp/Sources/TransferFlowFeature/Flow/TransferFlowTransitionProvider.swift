@@ -1,6 +1,13 @@
 import FlowKit
 
 final class TransferFlowTransitionProvider {
+    enum Event {
+        case invalidAmount
+        case confirmationContinue
+        case confirmationEditAmount
+        case confirmationEditTariff
+    }
+
     private lazy var declarativeTransitionProvider = DeclarativeTransitionProvider(flowDSL: Self.makeFlowDSL())
 }
 
@@ -14,19 +21,20 @@ extension TransferFlowTransitionProvider: TransitionProvider, FlowDSLBuilder {
 }
 
 private extension TransferFlowTransitionProvider {
-    static func makeFlowDSL() -> FlowDSL.Flow<TransferFlowStep, TransferFlowStepResult, TransferFlowState> {
+    static func makeFlowDSL() -> FlowDSL.Flow<TransferFlowStep, Event, TransferFlowStepResult, TransferFlowState> {
         return FlowDSL.Flow {
+            emit(using: emitter)
             step(.amount) {
-                on(invalidAmount) { forward(to: .invalidAmount) }
+                on(.invalidAmount) { forward(to: .invalidAmount) }
                 next { forward(to: .tariffs) }
             }
             step(.tariffs) {
                 next { forward(to: .confirmation) }
             }
             step(.confirmation) {
-                on(confirmation(.continue)) { forward(to: .success) }
-                on(confirmation(.editAmount)) { forward(to: .amount) }
-                on(confirmation(.editTariff)) { forward(to: .tariffs) }
+                on(.confirmationContinue) { forward(to: .success) }
+                on(.confirmationEditAmount) { forward(to: .amount) }
+                on(.confirmationEditTariff) { forward(to: .tariffs) }
             }
             step(.success) {
                 next { forward(to: .finish) }
@@ -34,15 +42,18 @@ private extension TransferFlowTransitionProvider {
         }
     }
 
-    static func invalidAmount(_ stepResult: TransferFlowStepResult, _ state: TransferFlowState) -> Bool {
-        if case .amount(let amount) = stepResult { return amount < 100 } else { return false }
-    }
-
-    static func confirmation(_ confirmationResult: ConfirmationResult)
-        -> (TransferFlowStepResult, TransferFlowState) -> Bool {
-
-        return { stepResult, _ in
-            if case .confirmation(confirmationResult, _) = stepResult { return true } else { return false }
+    static func emitter(_ stepResult: TransferFlowStepResult, _ state: TransferFlowState) -> Event? {
+        switch stepResult {
+        case .amount(let amount) where amount < 100:
+            return .invalidAmount
+        case .confirmation(.continue, _):
+            return .confirmationContinue
+        case .confirmation(.editAmount, _):
+            return .confirmationEditAmount
+        case .confirmation(.editTariff, _):
+            return .confirmationEditTariff
+        default:
+            return nil
         }
     }
 }

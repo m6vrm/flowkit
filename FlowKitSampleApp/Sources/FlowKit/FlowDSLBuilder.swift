@@ -1,10 +1,11 @@
 public protocol FlowDSLBuilder {
     associatedtype Step
+    associatedtype Event
     associatedtype StepResult
     associatedtype State
 
-    typealias Step_ = FlowDSL.Step<Step, StepResult, State>
-    typealias On = FlowDSL.On<Step, StepResult, State>
+    typealias Step_ = FlowDSL.Step<Step, Event>
+    typealias On = FlowDSL.On<Step, Event>
 }
 
 extension FlowDSLBuilder {
@@ -14,14 +15,20 @@ extension FlowDSLBuilder {
         return FlowDSL.Step(step: step, conditions: conditions())
     }
 
-    public static func on(_ predicate: @escaping (StepResult, State) -> Bool,
+    public static func emit(using emitter: @escaping (StepResult, State) -> Event?)
+        -> (StepResult, State) -> Event? {
+
+        return emitter
+    }
+
+    public static func on(_ event: Event,
                           @FlowDSL.TransitionBuilder transition: () -> Transition<Step>) -> On {
 
-        return FlowDSL.On(predicate: predicate, transition: transition())
+        return FlowDSL.On(event: event, transition: transition())
     }
 
     public static func next(@FlowDSL.TransitionBuilder transition: () -> Transition<Step>) -> On {
-        return FlowDSL.On(predicate: { _, _ in true }, transition: transition())
+        return FlowDSL.On(event: nil, transition: transition())
     }
 
     public static func forward(to step: Step) -> Transition<Step> {
@@ -34,22 +41,5 @@ extension FlowDSLBuilder {
 
     public static func back() -> Transition<Step> {
         return .back
-    }
-}
-
-extension FlowDSLBuilder where StepResult: Equatable {
-    public static func on(_ expectedStepResult: StepResult,
-                          @FlowDSL.TransitionBuilder transition: () -> Transition<Step>) -> On {
-
-        return FlowDSL.On(predicate: { stepResult, _ in stepResult == expectedStepResult }, transition: transition())
-    }
-
-    public static func on(_ expectedStepResult: StepResult,
-                          _ expectedState: State,
-                          @FlowDSL.TransitionBuilder transition: () -> Transition<Step>)
-        -> On where State: Equatable {
-
-        return FlowDSL.On(predicate: { $0 == expectedStepResult && $1 == expectedState },
-                          transition: transition())
     }
 }

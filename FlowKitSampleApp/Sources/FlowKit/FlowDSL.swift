@@ -6,39 +6,45 @@ public enum FlowDSL {
         }
     }
 
-    public struct On<Step, StepResult, State> {
-        let predicate: (StepResult, State) -> Bool
+    public struct On<Step, Event> {
+        let event: Event?
         let transition: Transition<Step>
     }
 
     @resultBuilder
     public struct ConditionBuilder {
-        public static func buildBlock<Step, StepResult, State>(_ components: On<Step, StepResult, State>...)
-            -> [On<Step, StepResult, State>] {
+        public static func buildBlock<Step, Event>(_ components: On<Step, Event>...)
+            -> [On<Step, Event>] {
 
             return components
         }
     }
 
-    public struct Step<Step, StepResult, State> {
+    public struct Step<Step, Event> {
         let step: Step
-        let conditions: [On<Step, StepResult, State>]
+        let conditions: [On<Step, Event>]
+    }
+
+    public struct Definition<Step, Event, StepResult, State> {
+        let emitter: (StepResult, State) -> Event?
+        let steps: [FlowDSL.Step<Step, Event>]
     }
 
     @resultBuilder
-    public struct StepBuilder {
-        public static func buildBlock<Step, StepResult, State>(_ components: FlowDSL.Step<Step, StepResult, State>...)
-            -> [FlowDSL.Step<Step, StepResult, State>] {
+    public struct DefinitionBuilder {
+        public static func buildBlock<Step, Event, StepResult, State>(
+            _ emitter: @escaping (StepResult, State) -> Event?,
+            _ steps: FlowDSL.Step<Step, Event>...) -> Definition<Step, Event, StepResult, State> {
 
-            return components
+            return Definition(emitter: emitter, steps: steps)
         }
     }
 
-    public struct Flow<Step, StepResult, State> {
-        let steps: [FlowDSL.Step<Step, StepResult, State>]
+    public struct Flow<Step, Event, StepResult, State> {
+        let definition: Definition<Step, Event, StepResult, State>
 
-        public init(@StepBuilder steps: () -> [FlowDSL.Step<Step, StepResult, State>]) {
-            self.steps = steps()
+        public init(@DefinitionBuilder definition: () -> Definition<Step, Event, StepResult, State>) {
+            self.definition = definition()
         }
     }
 }
