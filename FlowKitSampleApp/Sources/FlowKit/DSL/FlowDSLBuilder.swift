@@ -15,9 +15,7 @@ extension FlowDSLBuilder {
         return FlowDSL.Step(step: step, conditions: conditions())
     }
 
-    public static func emit(using emitter: @escaping (StepResult, State) -> Event?)
-        -> (StepResult, State) -> Event? {
-
+    public static func emit(using emitter: @escaping (StepResult, State) -> Event?) -> (StepResult, State) -> Event? {
         return emitter
     }
 

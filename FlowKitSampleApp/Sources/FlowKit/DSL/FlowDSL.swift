@@ -13,9 +13,7 @@ public enum FlowDSL {
 
     @resultBuilder
     public struct ConditionBuilder {
-        public static func buildBlock<Step, Event>(_ components: On<Step, Event>...)
-            -> [On<Step, Event>] {
-
+        public static func buildBlock<Step, Event>(_ components: On<Step, Event>...) -> [On<Step, Event>] {
             return components
         }
     }
