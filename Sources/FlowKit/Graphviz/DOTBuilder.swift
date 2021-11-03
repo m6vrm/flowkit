@@ -20,6 +20,7 @@ public final class DOTBuilder {
     public func dsl<Step, Event, StepResult, State>(_ flowDSL: FlowDSL<Step, Event, StepResult, State>) {
         let graph = Graph()
 
+        // build graph and process fowrads/backs
         for step in flowDSL.definition.steps {
             for condition in step.conditions {
                 switch condition.transition {
@@ -32,13 +33,14 @@ public final class DOTBuilder {
 
                     edges.append((from: "\(step.step)",
                                   to: "\(destination)",
-                                  label: condition.event.map { "\($0)"} ))
+                                  label: condition.event.map { "\($0)" } ))
                 default:
                     continue
                 }
             }
         }
 
+        // process backs to previous step
         for step in flowDSL.definition.steps {
             for condition in step.conditions {
                 guard case .back = condition.transition else { continue }
@@ -48,7 +50,7 @@ public final class DOTBuilder {
 
                     edges.append((from: "\(step.step)",
                                   to: "\(destination)",
-                                  label: condition.event.map { "\($0)"} ))
+                                  label: condition.event.map { "\($0)" } ))
                 }
             }
         }
@@ -95,10 +97,10 @@ private final class GraphNode {
         weak var node: GraphNode?
     }
 
-    let name: String
-
     private(set) var children = Set<GraphNode>()
     private(set) var parents = Set<WeakNode>()
+
+    let name: String
 
     init(name: String) {
         self.name = name
