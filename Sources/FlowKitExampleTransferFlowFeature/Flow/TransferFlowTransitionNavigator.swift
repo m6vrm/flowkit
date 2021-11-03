@@ -1,6 +1,6 @@
 import FlowKit
-import NavigationKit
-import PromiseKit
+import FlowKitExampleNavigation
+import FlowKitExamplePromises
 
 final class TransferFlowTransitionNavigator {
     private let navigator: RouteNavigator

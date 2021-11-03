@@ -1,4 +1,4 @@
-import PromiseKit
+import FlowKitExamplePromises
 
 enum TransferFlowStepResult {
     case amount(amount: Int)

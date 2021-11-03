@@ -1,9 +1,9 @@
-import NavigationKit
 import UIKit
+import FlowKitExampleNavigation
 
 struct ModuleBuilder { }
 
-extension ModuleBuilder: NavigationKit.ModuleBuilder {
+extension ModuleBuilder: FlowKitExampleNavigation.ModuleBuilder {
     func build(by route: Route) -> UIViewController {
         switch route {
         case .amount(let country, let completion):

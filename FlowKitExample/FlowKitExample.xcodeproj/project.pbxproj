@@ -3,65 +3,75 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		306A01C626945CC600845F35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306A01C526945CC600845F35 /* AppDelegate.swift */; };
-		306A01CF26945CC600845F35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 306A01CE26945CC600845F35 /* Assets.xcassets */; };
-		306A01D226945CC600845F35 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 306A01D026945CC600845F35 /* LaunchScreen.storyboard */; };
-		306A01DC26946D8100845F35 /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 306A01DB26946D8100845F35 /* AppFeature */; };
+		30F6555E27331FA400D67EE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F6555D27331FA400D67EE6 /* AppDelegate.swift */; };
+		30F6556727331FA400D67EE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30F6556627331FA400D67EE6 /* Assets.xcassets */; };
+		30F6556A27331FA400D67EE6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30F6556827331FA400D67EE6 /* LaunchScreen.storyboard */; };
+		30F655752733204000D67EE6 /* FlowKitExampleAppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 30F655742733204000D67EE6 /* FlowKitExampleAppFeature */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		306A01C226945CC600845F35 /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		306A01C526945CC600845F35 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		306A01CE26945CC600845F35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		306A01D126945CC600845F35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		306A01D326945CC600845F35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		30F6555A27331FA400D67EE6 /* FlowKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlowKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		30F6555D27331FA400D67EE6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		30F6556627331FA400D67EE6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		30F6556927331FA400D67EE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		30F6556B27331FA400D67EE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		30F6557227331FC300D67EE6 /* FlowKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FlowKit; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		306A01BF26945CC500845F35 /* Frameworks */ = {
+		30F6555727331FA400D67EE6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				306A01DC26946D8100845F35 /* AppFeature in Frameworks */,
+				30F655752733204000D67EE6 /* FlowKitExampleAppFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		306A01B926945CC500845F35 = {
+		30F6555127331FA400D67EE6 = {
 			isa = PBXGroup;
 			children = (
-				306A01C426945CC600845F35 /* App */,
-				306A01C326945CC600845F35 /* Products */,
-				306A01DA26946D8100845F35 /* Frameworks */,
+				30F6557127331FC300D67EE6 /* Packages */,
+				30F6555C27331FA400D67EE6 /* FlowKitExample */,
+				30F6555B27331FA400D67EE6 /* Products */,
+				30F655732733204000D67EE6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		306A01C326945CC600845F35 /* Products */ = {
+		30F6555B27331FA400D67EE6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				306A01C226945CC600845F35 /* App.app */,
+				30F6555A27331FA400D67EE6 /* FlowKitExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		306A01C426945CC600845F35 /* App */ = {
+		30F6555C27331FA400D67EE6 /* FlowKitExample */ = {
 			isa = PBXGroup;
 			children = (
-				306A01C526945CC600845F35 /* AppDelegate.swift */,
-				306A01CE26945CC600845F35 /* Assets.xcassets */,
-				306A01D026945CC600845F35 /* LaunchScreen.storyboard */,
-				306A01D326945CC600845F35 /* Info.plist */,
+				30F6555D27331FA400D67EE6 /* AppDelegate.swift */,
+				30F6556627331FA400D67EE6 /* Assets.xcassets */,
+				30F6556827331FA400D67EE6 /* LaunchScreen.storyboard */,
+				30F6556B27331FA400D67EE6 /* Info.plist */,
 			);
-			path = App;
+			path = FlowKitExample;
 			sourceTree = "<group>";
 		};
-		306A01DA26946D8100845F35 /* Frameworks */ = {
+		30F6557127331FC300D67EE6 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				30F6557227331FC300D67EE6 /* FlowKit */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		30F655732733204000D67EE6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -71,86 +81,87 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		306A01C126945CC500845F35 /* App */ = {
+		30F6555927331FA400D67EE6 /* FlowKitExample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 306A01D626945CC600845F35 /* Build configuration list for PBXNativeTarget "App" */;
+			buildConfigurationList = 30F6556E27331FA400D67EE6 /* Build configuration list for PBXNativeTarget "FlowKitExample" */;
 			buildPhases = (
-				306A01BE26945CC500845F35 /* Sources */,
-				306A01BF26945CC500845F35 /* Frameworks */,
-				306A01C026945CC500845F35 /* Resources */,
+				30F6555627331FA400D67EE6 /* Sources */,
+				30F6555727331FA400D67EE6 /* Frameworks */,
+				30F6555827331FA400D67EE6 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = App;
+			name = FlowKitExample;
 			packageProductDependencies = (
-				306A01DB26946D8100845F35 /* AppFeature */,
+				30F655742733204000D67EE6 /* FlowKitExampleAppFeature */,
 			);
-			productName = App;
-			productReference = 306A01C226945CC600845F35 /* App.app */;
+			productName = FlowKitExample;
+			productReference = 30F6555A27331FA400D67EE6 /* FlowKitExample.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		306A01BA26945CC500845F35 /* Project object */ = {
+		30F6555227331FA400D67EE6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1250;
-				LastUpgradeCheck = 1250;
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1310;
+				LastUpgradeCheck = 1310;
 				TargetAttributes = {
-					306A01C126945CC500845F35 = {
-						CreatedOnToolsVersion = 12.5;
+					30F6555927331FA400D67EE6 = {
+						CreatedOnToolsVersion = 13.1;
 					};
 				};
 			};
-			buildConfigurationList = 306A01BD26945CC500845F35 /* Build configuration list for PBXProject "App" */;
-			compatibilityVersion = "Xcode 9.3";
+			buildConfigurationList = 30F6555527331FA400D67EE6 /* Build configuration list for PBXProject "FlowKitExample" */;
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 306A01B926945CC500845F35;
-			productRefGroup = 306A01C326945CC600845F35 /* Products */;
+			mainGroup = 30F6555127331FA400D67EE6;
+			productRefGroup = 30F6555B27331FA400D67EE6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				306A01C126945CC500845F35 /* App */,
+				30F6555927331FA400D67EE6 /* FlowKitExample */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		306A01C026945CC500845F35 /* Resources */ = {
+		30F6555827331FA400D67EE6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				306A01D226945CC600845F35 /* LaunchScreen.storyboard in Resources */,
-				306A01CF26945CC600845F35 /* Assets.xcassets in Resources */,
+				30F6556A27331FA400D67EE6 /* LaunchScreen.storyboard in Resources */,
+				30F6556727331FA400D67EE6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		306A01BE26945CC500845F35 /* Sources */ = {
+		30F6555627331FA400D67EE6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				306A01C626945CC600845F35 /* AppDelegate.swift in Sources */,
+				30F6555E27331FA400D67EE6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		306A01D026945CC600845F35 /* LaunchScreen.storyboard */ = {
+		30F6556827331FA400D67EE6 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				306A01D126945CC600845F35 /* Base */,
+				30F6556927331FA400D67EE6 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -158,13 +169,13 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		306A01D426945CC600845F35 /* Debug */ = {
+		30F6556C27331FA400D67EE6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -209,24 +220,23 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		306A01D526945CC600845F35 /* Release */ = {
+		30F6556D27331FA400D67EE6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -265,7 +275,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -275,37 +285,57 @@
 			};
 			name = Release;
 		};
-		306A01D726945CC600845F35 /* Debug */ = {
+		30F6556F27331FA400D67EE6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = App/Info.plist;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2TUHEN5M7U;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FlowKitExample/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.madyanov.FlowKitSampleApp;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.madyanov.FlowKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		306A01D826945CC600845F35 /* Release */ = {
+		30F6557027331FA400D67EE6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = App/Info.plist;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2TUHEN5M7U;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FlowKitExample/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.madyanov.FlowKitSampleApp;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.madyanov.FlowKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -314,20 +344,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		306A01BD26945CC500845F35 /* Build configuration list for PBXProject "App" */ = {
+		30F6555527331FA400D67EE6 /* Build configuration list for PBXProject "FlowKitExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				306A01D426945CC600845F35 /* Debug */,
-				306A01D526945CC600845F35 /* Release */,
+				30F6556C27331FA400D67EE6 /* Debug */,
+				30F6556D27331FA400D67EE6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		306A01D626945CC600845F35 /* Build configuration list for PBXNativeTarget "App" */ = {
+		30F6556E27331FA400D67EE6 /* Build configuration list for PBXNativeTarget "FlowKitExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				306A01D726945CC600845F35 /* Debug */,
-				306A01D826945CC600845F35 /* Release */,
+				30F6556F27331FA400D67EE6 /* Debug */,
+				30F6557027331FA400D67EE6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -335,11 +365,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		306A01DB26946D8100845F35 /* AppFeature */ = {
+		30F655742733204000D67EE6 /* FlowKitExampleAppFeature */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = AppFeature;
+			productName = FlowKitExampleAppFeature;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 306A01BA26945CC500845F35 /* Project object */;
+	rootObject = 30F6555227331FA400D67EE6 /* Project object */;
 }

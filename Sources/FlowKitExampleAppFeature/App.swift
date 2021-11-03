@@ -1,6 +1,6 @@
 import UIKit
-import NavigationKit
-import TransferFlowFeature
+import FlowKitExampleNavigation
+import FlowKitExampleTransferFlowFeature
 
 public final class App {
     private lazy var window = UIWindow()

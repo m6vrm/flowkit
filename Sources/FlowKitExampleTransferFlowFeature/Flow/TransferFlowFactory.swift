@@ -1,4 +1,4 @@
-import NavigationKit
+import FlowKitExampleNavigation
 
 public final class TransferFlowFactory {
     private let navigationDriver: NavigationDriver

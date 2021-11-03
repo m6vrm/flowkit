@@ -1,5 +1,5 @@
 import UIKit
-import PromiseKit
+import FlowKitExamplePromises
 
 final class ConfirmationViewController: UIViewController {
     private let loadingPublisher: Publisher<Bool>

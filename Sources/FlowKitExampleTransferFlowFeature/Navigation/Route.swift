@@ -1,4 +1,4 @@
-import PromiseKit
+import FlowKitExamplePromises
 
 enum Route {
     case amount(country: Country, completion: (Int) -> Void)

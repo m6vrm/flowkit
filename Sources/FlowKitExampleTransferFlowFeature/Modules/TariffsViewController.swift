@@ -1,5 +1,5 @@
 import UIKit
-import PromiseKit
+import FlowKitExamplePromises
 
 final class TariffsViewController: UIViewController {
     private let completion: (Tariff) -> Void
