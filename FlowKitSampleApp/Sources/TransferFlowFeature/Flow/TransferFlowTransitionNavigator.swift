@@ -14,22 +14,20 @@ extension TransferFlowTransitionNavigator: TransitionNavigator {
     func navigate(using transition: Transition<TransferFlowStep>,
                   with state: TransferFlowState) -> Promise<TransferFlowStepResult> {
 
-        guard case .forwardTo(let step) = transition else { return .nothing }
-
-        switch (step, state) {
-        case (.amount, .country(let country)),
-             (.amount, .tariff(_, _, let country)):
+        switch (transition, state) {
+        case (.forwardTo(.amount), .country(let country)),
+             (.forwardTo(.amount), .tariff(_, _, let country)):
             return .promise { completion in
                 self.navigator.forward(to: .amount(country: country,
                                                    completion: { completion(.amount(amount: $0)) }))
             }
-        case (.invalidAmount, _):
+        case (.forwardTo(.invalidAmount), _):
             return .promise { _ in self.navigator.forward(to: .invalidAmount) }
-        case (.tariffs, _):
+        case (.forwardTo(.tariffs), _):
             return .promise { completion in
                 self.navigator.forward(to: .tariffs(completion: { completion(.tariffs(tariff: $0)) }))
             }
-        case (.confirmation, .tariff(let tariff, let amount, let country)):
+        case (.forwardTo(.confirmation), .tariff(let tariff, let amount, let country)):
             return .promise { completion in
                 let loadingPublisher = Publisher<Bool>()
                 self.navigator.forward(to: .confirmation(loadingPublisher: loadingPublisher,
@@ -39,15 +37,27 @@ extension TransferFlowTransitionNavigator: TransitionNavigator {
                                                          completion: { completion(.confirmation(result: $0,
                                                                                                         loadingPublisher: loadingPublisher)) }))
             }
-        case (.success, .transfer(let transfer)):
+        case (.forwardTo(.success), .transfer(let transfer)):
             return .promise { completion in
                 self.navigator.forward(to: .success(transfer: transfer,
                                                     completion: { completion(.success) }))
             }
-        case (.finish, _):
+        case (.forwardTo(.finish), _):
             return .promise {
                 self.navigator.backToRoot()
                 $0(.finish)
+            }
+        case (.backTo(.amount), _):
+            return .promise { _ in
+                self.navigator.forward(to: .amount(country: .russia, completion: { _ in }))
+            }
+        case (.backTo(.tariffs), _):
+            return .promise { _ in
+                self.navigator.forward(to: .tariffs(completion: { _ in }))
+            }
+        case (.back, _):
+            return .promise { _ in
+                self.navigator.back()
             }
         default:
             return .nothing

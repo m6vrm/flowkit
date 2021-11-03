@@ -33,8 +33,8 @@ private extension TransferFlowTransitionProvider {
             }
             step(.confirmation) {
                 on(.confirmationContinue) { forward(to: .success) }
-                on(.confirmationEditAmount) { forward(to: .amount) }
-                on(.confirmationEditTariff) { forward(to: .tariffs) }
+                on(.confirmationEditAmount) { back(to: .amount) }
+                on(.confirmationEditTariff) { back(to: .tariffs) }
             }
             step(.success) {
                 next { forward(to: .finish) }
