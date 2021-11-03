@@ -21,8 +21,8 @@ extension TransferFlowTransitionProvider: TransitionProvider, FlowDSLBuilder {
 }
 
 private extension TransferFlowTransitionProvider {
-    static func makeFlowDSL() -> FlowDSL.Flow<TransferFlowStep, Event, TransferFlowStepResult, TransferFlowState> {
-        return FlowDSL.Flow {
+    static func makeFlowDSL() -> FlowDSL<TransferFlowStep, Event, TransferFlowStepResult, TransferFlowState> {
+        return FlowDSL {
             emit(using: emitter)
             step(.amount) {
                 on(.invalidAmount) { forward(to: .invalidAmount) }

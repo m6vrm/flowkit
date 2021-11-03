@@ -17,7 +17,7 @@ public final class DOTBuilder {
 
     public init() { }
 
-    public func dsl<Step, Event, StepResult, State>(_ flowDSL: FlowDSL.Flow<Step, Event, StepResult, State>) {
+    public func dsl<Step, Event, StepResult, State>(_ flowDSL: FlowDSL<Step, Event, StepResult, State>) {
         let graph = Graph()
 
         for step in flowDSL.definition.steps {

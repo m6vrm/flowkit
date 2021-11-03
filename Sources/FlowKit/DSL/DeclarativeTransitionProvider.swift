@@ -1,7 +1,7 @@
 public final class DeclarativeTransitionProvider<Step: Equatable, Event: Equatable, StepResult, State> {
-    private let flowDSL: FlowDSL.Flow<Step, Event, StepResult, State>
+    private let flowDSL: FlowDSL<Step, Event, StepResult, State>
 
-    public init(flowDSL: FlowDSL.Flow<Step, Event, StepResult, State>) {
+    public init(flowDSL: FlowDSL<Step, Event, StepResult, State>) {
         self.flowDSL = flowDSL
     }
 }

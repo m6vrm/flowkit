@@ -4,15 +4,15 @@ public protocol FlowDSLBuilder {
     associatedtype StepResult
     associatedtype State
 
-    typealias Step_ = FlowDSL.Step<Step, Event>
-    typealias On = FlowDSL.On<Step, Event>
+    typealias Step_ = Declarations.Step<Step, Event>
+    typealias On = Declarations.On<Step, Event>
 }
 
 extension FlowDSLBuilder {
     public static func step(_ step: Step,
-                            @FlowDSL.ConditionBuilder conditions: () -> [On]) -> Step_ {
+                            @Builders.ConditionBuilder conditions: () -> [On]) -> Step_ {
 
-        return FlowDSL.Step(step: step, conditions: conditions())
+        return Step_(step: step, conditions: conditions())
     }
 
     public static func emit(using emitter: @escaping (StepResult, State) -> Event?) -> (StepResult, State) -> Event? {
@@ -20,13 +20,13 @@ extension FlowDSLBuilder {
     }
 
     public static func on(_ event: Event,
-                          @FlowDSL.TransitionBuilder transition: () -> Transition<Step>) -> On {
+                          @Builders.TransitionBuilder transition: () -> Transition<Step>) -> On {
 
-        return FlowDSL.On(event: event, transition: transition())
+        return On(event: event, transition: transition())
     }
 
-    public static func next(@FlowDSL.TransitionBuilder transition: () -> Transition<Step>) -> On {
-        return FlowDSL.On(event: nil, transition: transition())
+    public static func next(@Builders.TransitionBuilder transition: () -> Transition<Step>) -> On {
+        return On(event: nil, transition: transition())
     }
 
     public static func forward(to step: Step) -> Transition<Step> {
