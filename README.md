@@ -16,9 +16,14 @@
   - [Step](#step)
   - [StepResult](#stepresult)
   - [State](#state)
-  - [Схема работы флоу](#схема-работы-флоу)
+- [Использование](#использование)
+- [DSL](#dsl)
 
 ## Концепция
+
+<p align="center">
+    <img src="assets/flow.png">
+</p>
 
 Основная идея в вертикальном разделении ответственностей флоу:
 
@@ -34,36 +39,11 @@
 
 Согласно шагу `TransitionNavigator` совершает переход на нужный экран.
 
-Пример:
-
-```swift
-enum MyFlowStep {
-    case amount
-    case invalidAmount
-    case tariffs
-    case confirmation
-    case success
-    case finish
-}
-```
-
 ### StepResult
 
 Результаты шагов флоу. Либо данные, пришедшие от предыдущего экрана, либо какой-то флаг, говорящий о завершении шага.
 
 По результату шага `StateReducer` создает новое состояние, а `TransitionProvider` определяет, какой переход совершить далее.
-
-Пример:
-
-```swift
-enum MyFlowStepResult {
-    case amount(Int)
-    case tariffs(Tariff)
-    case confirmation(ConfirmationResult)
-    case success
-    case finish
-}
-```
 
 ### State
 
@@ -71,17 +51,61 @@ enum MyFlowStepResult {
 
 В отличие от шага и результата шага, состояние передается во все основные компоненты флоу: `TransitionNavigator`, `StateReducer`, `TransitionProvider`. Все они могут использовать состояние для корректной работы своей логики, но изменять состояние может только `StateReducer`.
 
-Пример:
+## Использование
+
+Определяем шаги флоу, результаты шагов, возможные состояния:
 
 ```swift
+enum MyFlowStep {
+    case amount
+    case invalidAmount
+    case tariffs
+    ...
+}
+
+enum MyFlowStepResult {
+    case amount(Int)
+    case tariffs(Tariff)
+    case confirmation(ConfirmationResult)
+    ...
+}
+
 enum MyFlowState {
     case country(Country)
     case amount(Int, country: Country)
     case tariff(Tariff, amount: Int, country: Country)
-    case transfer(Transfer)
+    ...
 }
 ```
 
-### Схема работы флоу
+Реализуем `TransitionNavigator`, `StateReducer` и `TransitionProvider`:
 
-![Flow](assets/flow.png)
+```swift
+final class MyFlowTransitionNavigator: TransitionNavigator { ... }
+
+final class MyFlowStateRecuer: StateReducer { ... }
+
+final class MyFlowTransitionProvider: TransitionProvider { ... }
+```
+
+Стартуем флоу:
+
+```swift
+lazy var transitionNavigator = MyFlowTransitionNavigator(...)
+lazy var stateReducer = MyFlowStateRecuer(...)
+lazy var transitionProvider = MyFlowTransitionProvider(...)
+
+lazy var flow = Flow(transitionNavigator: transitionNavigator,
+                     stateReducer: stateReducer,
+                     transitionProvider: transitionProvider)
+
+func start(with country: Country) -> Promise<Transfer> {
+    return flow.start(from: .amount, with: .country(country))
+}
+```
+
+- [Подробный пример](Sources/FlowKitExampleTransferFlowFeature/Flow)
+
+## DSL
+
+TBD
