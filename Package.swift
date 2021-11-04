@@ -16,9 +16,17 @@ let package = Package(
         .target(name: "FlowKitExamplePromises"),
         .target(
             name: "FlowKitExampleTransferFlowFeature",
-            dependencies: ["FlowKit", "FlowKitExampleNavigation", "FlowKitExamplePromises"]),
+            dependencies: [
+                "FlowKit",
+                "FlowKitExampleNavigation",
+                "FlowKitExamplePromises"
+            ]),
         .target(
             name: "FlowKitExampleAppFeature",
-            dependencies: ["FlowKit", "FlowKitExampleNavigation", "FlowKitExampleTransferFlowFeature"]),
+            dependencies: [
+                "FlowKit",
+                "FlowKitExampleNavigation",
+                "FlowKitExampleTransferFlowFeature"
+            ]),
     ]
 )
