@@ -55,6 +55,12 @@
 
 ## Использование
 
+Подключаем:
+
+```swift
+.package(url: "https://github.com/madyanov/FlowKit.git", .upToNextMinor(from: "0.1.0")),
+```
+
 Определяем шаги флоу, результаты шагов, возможные состояния:
 
 ```swift
