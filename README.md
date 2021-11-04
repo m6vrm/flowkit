@@ -110,7 +110,7 @@ final class MyFlow {
 
 ## DSL
 
-`DeclarativeTransitionProvider` позволяет описывать описывать `TransitionProvider` с помощью DSL:
+Вместо своей реализации `TransitionProvider`-а можно использовать уже существующий `DeclarativeTransitionProvider`, который позволяет описывать `TransitionProvider` с помощью DSL:
 
 ```swift
 let dsl = FlowDSL {
