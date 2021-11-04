@@ -31,7 +31,7 @@
 - Логика навигации (`TransitionProvider`) – определение, на какой экран переходить дальше.
 - Преобразование состояния (`StateReducer`) – трансформация данных по мере прохождение флоу и определение, когда данных достаточно для завершения флоу.
 
-Данные компоненты оперируют следующими сущностями: `Step`, `StepResult`, `State`.
+Эти компоненты асинхронны и оперируют следующими сущностями: `Step`, `StepResult`, `State`.
 
 ### Step
 
@@ -88,23 +88,25 @@ final class MyFlowStateRecuer: StateReducer { ... }
 final class MyFlowTransitionProvider: TransitionProvider { ... }
 ```
 
-Стартуем флоу:
+Собираем и стартуем флоу:
 
 ```swift
-lazy var transitionNavigator = MyFlowTransitionNavigator(...)
-lazy var stateReducer = MyFlowStateRecuer(...)
-lazy var transitionProvider = MyFlowTransitionProvider(...)
+final class MyFlow {
+    private lazy var transitionNavigator = MyFlowTransitionNavigator(...)
+    private lazy var stateReducer = MyFlowStateRecuer(...)
+    private lazy var transitionProvider = MyFlowTransitionProvider(...)
 
-lazy var flow = Flow(transitionNavigator: transitionNavigator,
-                     stateReducer: stateReducer,
-                     transitionProvider: transitionProvider)
+    private lazy var flow = Flow(transitionNavigator: transitionNavigator,
+                                 stateReducer: stateReducer,
+                                 transitionProvider: transitionProvider)
 
-func start(with country: Country) -> Promise<Transfer> {
-    return flow.start(from: .amount, with: .country(country))
+    func start(with country: Country) -> Promise<Transfer> {
+        return flow.start(from: .amount, with: .country(country))
+    }
 }
 ```
 
-- [Подробный пример](Sources/FlowKitExampleTransferFlowFeature/Flow)
+[Пример реализации флоу](Sources/FlowKitExampleTransferFlowFeature/Flow)
 
 ## DSL
 
