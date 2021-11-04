@@ -153,7 +153,7 @@ let transitionProvider = DeclarativeTransitionProvider(flowDSL: dsl)
 final class MyFlowDSLBuilder: FlowDSLBuilder { ... }
 ````
 
-Для описания реакции на изменение состояния используется тип, описывающий возможные события (`Event`), и функция-`emitter` этих событий.
+Для реакции на изменение состояния используется тип, описывающий возможные события (`Event`), и функция-`emitter` этих событий.
 
 Определяем тип `Event` внутри билдера:
 
