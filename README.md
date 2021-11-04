@@ -110,4 +110,27 @@ final class MyFlow {
 
 ## DSL
 
-TBD
+`DeclarativeTransitionProvider` позволяет описывать описывать `TransitionProvider` с помощью DSL:
+
+```swift
+let dsl = FlowDSL {
+    emit(using: emitter)
+    step(.amount) {
+        on(.invalidAmount) { forward(to: .invalidAmount) }
+        next { forward(to: .tariffs) }
+    }
+    step(.tariffs) {
+        next { forward(to: .confirmation) }
+    }
+    step(.confirmation) {
+        on(.confirmationContinue) { forward(to: .success) }
+        on(.confirmationEditAmount) { back(to: .amount) }
+        on(.confirmationEditTariff) { back(to: .tariffs) }
+    }
+    step(.success) {
+        next { forward(to: .finish) }
+    }
+}
+
+let transitionProvider = DeclarativeTransitionProvider(flowDSL: dsl)
+```
