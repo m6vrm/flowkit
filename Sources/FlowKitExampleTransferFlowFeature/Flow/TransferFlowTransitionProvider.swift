@@ -22,7 +22,7 @@ extension TransferFlowTransitionProvider: TransitionProvider, FlowDSLBuilder {
 
 private extension TransferFlowTransitionProvider {
     static func makeFlowDSL() -> FlowDSL<TransferFlowStep, Event, TransferFlowStepResult, TransferFlowState> {
-        return FlowDSL {
+        let dsl = FlowDSL {
             emit(using: emitter)
             step(.amount) {
                 on(.invalidAmount) { forward(to: .invalidAmount) }
@@ -40,6 +40,12 @@ private extension TransferFlowTransitionProvider {
                 next { forward(to: .finish) }
             }
         }
+
+        let dot = DOTBuilder()
+        dot.dsl(dsl)
+        print(dot.build())
+
+        return dsl
     }
 
     static func emitter(_ stepResult: TransferFlowStepResult, _ state: TransferFlowState) -> Event? {

@@ -141,4 +141,96 @@ let transitionProvider = DeclarativeTransitionProvider(flowDSL: dsl)
 
 ### Использование
 
+Создаем билдер DSL, поддерживающий протокол `FlowDSLBuilder`:
+
+```swift
+final class MyFlowDSLBuilder: FlowDSLBuilder { ... }
+````
+
+Для описания реакции на изменение состояния используется тип, описывающий возможные события (`Event`), и функция-`emitter` этих событий.
+
+Определяем тип `Event` внутри билдера:
+
+```swift
+final class MyFlowDSLBuilder: FlowDSLBuilder {
+    enum Event {
+        case invalidAmount
+        case confirmationContinue
+        case confirmationEditAmount
+        case confirmationEditTariff
+    }
+
+    ...
+}
+```
+
+Определяем `emitter` событий:
+
+```swift
+static func emitter(_ stepResult: MyFlowStepResult, _ state: MyFlowState) -> Event? {
+    switch stepResult {
+    case .amount(let amount) where amount < 100:
+        return .invalidAmount
+    case .confirmation(.continue, _):
+        return .confirmationContinue
+    case .confirmation(.editAmount, _):
+        return .confirmationEditAmount
+    case .confirmation(.editTariff, _):
+        return .confirmationEditTariff
+    default:
+        return nil
+    }
+}
+```
+
+Описываем флоу, используя `emitter`:
+
+```swift
+
+let dsl = FlowDSL {
+    emit(using: emitter)
+    step(.amount) {
+        on(.invalidAmount) { forward(to: .invalidAmount) }
+        next { forward(to: .tariffs) }
+    }
+    ...
+}
+
+...
+```
+
+[Полный пример, где `FlowDSLBuilder` реализуется в самом `TransitionProvider`-е](Sources/FlowKitExampleTransferFlowFeature/Flow/TransferFlowTransitionProvider.swift)
+
 ### Graphviz
+
+`DOTBuilder` позволяет конвертировать DSL в [язык описания графов DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) для последующей визуализации:
+
+```swift
+let dot = DOTBuilder()
+let dsl = FlowDSL { ... }
+
+dot.dsl(dsl)
+
+print(dot.build())
+```
+
+Результат для флоу из примера:
+
+```dot
+strict digraph {
+	rankdir=LR
+	node [shape=box]
+
+	amount -> invalidAmount [label="invalidAmount"]
+	amount -> tariffs
+	tariffs -> confirmation
+	confirmation -> success [label="confirmationContinue"]
+	confirmation -> amount [label="confirmationEditAmount"]
+	confirmation -> tariffs [label="confirmationEditTariff"]
+	success -> finish
+}
+```
+
+Визуализация:
+
+![Flow Graph](assets/graph.png)
