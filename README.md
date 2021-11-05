@@ -26,7 +26,7 @@ Features:
     <img src="assets/flow.png">
 </p>
 
-The main idea is the vertical separation of responsibilities of the flow:
+The main idea is a vertical separation of responsibilities of the flow:
 
 - Navigation implementation (`TransitionNavigator`) – changing the tree of screens.
 - Navigation logic (`TransitionProvider`) – determining which screen to go next.
@@ -38,11 +38,11 @@ These components are asynchronous and operate with entities such as `Step`, `Ste
 
 Flow steps. In fact, these are screens or some kind of navigation actions.
 
-According to the step `TransitionNavigator` makes the transition to the screen.
+According to the step the `TransitionNavigator` makes transition to the screen.
 
 ### StepResult
 
-The results of the flow steps. Either the data that came from the previous screen, or some kind of flag indicating the completion of the step.
+The results of the flow steps. Either the data that came from the previous screen, or some kind of flag indicating a completion of the step.
 
 Based on the result of the step, the `StateReducer` creates a new state, and the `TransitionProvider` determines which transition to make next.
 
@@ -50,7 +50,7 @@ Based on the result of the step, the `StateReducer` creates a new state, and the
 
 The state of the flow collected from the results of the previous steps. I.e., this is the data collected as the flow progresses, and used either in the flow itself, or returned at its completion.
 
-Unlike the step and the result of the step, the state is passed to all the main components of the flow: `TransitionNavigator`, `StateReducer`, `TransitionProvider`. All of them can use the state for their logic to work correctly, but only `StateReducer` can change the state.
+Unlike the step and the result of the step, the state is passed to all the main components of the flow: `TransitionNavigator`, `StateReducer`, `TransitionProvider`. All of them can use the state for their logic to work correctly, but only the `StateReducer` can change the state.
 
 ## Usage
 
@@ -188,7 +188,7 @@ static func emitter(_ stepResult: MyFlowStepResult, _ state: MyFlowState) -> Eve
 }
 ```
 
-Describe the flow using `emitter`:
+Describe the flow using this `emitter`:
 
 ```swift
 
@@ -204,11 +204,11 @@ let dsl = FlowDSL {
 ...
 ```
 
-[A complete example where `FlowDSLBuilder` is implemented in the `TransitionProvider`](Sources/FlowKitExampleTransferFlowFeature/Flow/TransferFlowTransitionProvider.swift)
+[Complete example where `FlowDSLBuilder` is implemented in the `TransitionProvider`](Sources/FlowKitExampleTransferFlowFeature/Flow/TransferFlowTransitionProvider.swift)
 
 ### Graphviz
 
-`DOTBuilder` allows you to convert DSL to [the DOT graph description language](https://en.wikipedia.org/wiki/DOT_(graph_description_language)):
+The `DOTBuilder` allows you to convert DSL to [the DOT graph description language](https://en.wikipedia.org/wiki/DOT_(graph_description_language)):
 
 ```swift
 let dot = DOTBuilder()
@@ -219,7 +219,7 @@ dot.dsl(dsl)
 print(dot.build())
 ```
 
-The result for the flow from the example:
+Result for the example flow:
 
 ```dot
 strict digraph {
