@@ -95,7 +95,7 @@ final class MyFlowStateRecuer: StateReducer { ... }
 final class MyFlowTransitionProvider: TransitionProvider { ... }
 ```
 
-Build and start the flow:
+Create and start the flow:
 
 ```swift
 final class MyFlow {
@@ -146,7 +146,7 @@ let transitionProvider = DeclarativeTransitionProvider(flowDSL: dsl)
 
 ### Usage
 
-Create a DSL builder that implements the protocol `FlowDSLBuilder`:
+Create a DSL builder that implements the `FlowDSLBuilder` protocol:
 
 ```swift
 final class MyFlowDSLBuilder: FlowDSLBuilder { ... }
