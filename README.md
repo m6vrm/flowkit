@@ -1,66 +1,66 @@
 # FlowKit
 
-Библиотека, позволяющая описывать [координаторы флоу](https://khanlou.com/2015/01/the-coordinator/) как [FSM](https://en.wikipedia.org/wiki/Finite-state_machine).
+A library that allows you to describe [flow coordinators](https://khanlou.com/2015/01/the-coordinator/) as [FSM](https://en.wikipedia.org/wiki/Finite-state_machine).
 
-Особенности:
+Features:
 
-- Разделение ответственностей: реализация навигации, логика навигации и преобразование состояния описываются и могут быть протестированы независимо друг от друга.
-- Отсутствие шареного состояния.
-- Возможность стартовать флоу с любого экрана.
-- Декларативность, DSL из коробки, генерация [описания графа флоу на языке DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) и вот это все :3
+- Separation of responsibilities: navigation implementation, navigation logic and state transformation are described and can be tested independently of each other.
+- No shared state.
+- Ability to start a flow from any screen.
+- Declarativity, DSL out of the box, generation of [flow graph description in the DOT language]((https://en.wikipedia.org/wiki/DOT_(graph_description_language))).
 - Server-driven flow ready.
 
-## Содержание
+## Table of Contents
 
-- [Концепция](#концепция)
+- [Concept](#concept)
   - [Step](#step)
   - [StepResult](#stepresult)
   - [State](#state)
-- [Использование](#использование)
+- [Usage](#usage)
 - [DSL](#dsl)
   - [Graphviz](#graphviz)
 
-## Концепция
+## Concept
 
 <p align="center">
     <img src="assets/flow.png">
 </p>
 
-Основная идея в вертикальном разделении ответственностей флоу:
+The main idea is the vertical separation of responsibilities of the flow:
 
-- Реализация навигации (`TransitionNavigator`) – изменение дерева экранов.
-- Логика навигации (`TransitionProvider`) – определение, на какой экран переходить дальше.
-- Преобразование состояния (`StateReducer`) – трансформация данных по мере прохождение флоу и определение, когда данных достаточно для завершения флоу.
+- Navigation implementation (`TransitionNavigator`) – changing the tree of screens.
+- Navigation logic (`TransitionProvider`) – determining which screen to go next.
+- State transformation (`StateReducer`) – transformation of data as the flow progresses and determining when there is enough data to complete the flow.
 
-Эти компоненты асинхронны и оперируют такими сущностями, как `Step`, `StepResult`, `State`.
+These components are asynchronous and operate with entities such as `Step`, `StepResult`, `State`.
 
 ### Step
 
-Шаги флоу. Фактически это экраны либо какие-то действия навигации.
+Flow steps. In fact, these are screens or some kind of navigation actions.
 
-Согласно шагу `TransitionNavigator` совершает переход на нужный экран.
+According to the step `TransitionNavigator` makes the transition to the screen.
 
 ### StepResult
 
-Результаты шагов флоу. Либо данные, пришедшие от предыдущего экрана, либо какой-то флаг, говорящий о завершении шага.
+The results of the flow steps. Either the data that came from the previous screen, or some kind of flag indicating the completion of the step.
 
-По результату шага `StateReducer` создает новое состояние, а `TransitionProvider` определяет, какой переход совершить далее.
+Based on the result of the step, the `StateReducer` creates a new state, and the `TransitionProvider` determines which transition to make next.
 
 ### State
 
-Собранное из результатов предыдущих шагов состояние флоу. Т.е. это данные, собранные по мере прохождения флоу, и используемые либо в самом флоу, либо возвращаемые наружу при его завершении.
+The state of the flow collected from the results of the previous steps. I.e., this is the data collected as the flow progresses, and used either in the flow itself, or returned at its completion.
 
-В отличие от шага и результата шага, состояние передается во все основные компоненты флоу: `TransitionNavigator`, `StateReducer`, `TransitionProvider`. Все они могут использовать состояние для корректной работы своей логики, но изменять состояние может только `StateReducer`.
+Unlike the step and the result of the step, the state is passed to all the main components of the flow: `TransitionNavigator`, `StateReducer`, `TransitionProvider`. All of them can use the state for their logic to work correctly, but only `StateReducer` can change the state.
 
-## Использование
+## Usage
 
-Подключаем:
+Add a dependency:
 
 ```swift
 .package(url: "https://github.com/madyanov/FlowKit.git", .upToNextMinor(from: "0.1.0")),
 ```
 
-Определяем шаги флоу, результаты шагов, возможные состояния:
+Determine the flow steps, the results of the steps and the possible states:
 
 ```swift
 enum MyFlowStep {
@@ -85,7 +85,7 @@ enum MyFlowState {
 }
 ```
 
-Реализуем `TransitionNavigator`, `StateReducer` и `TransitionProvider`:
+Implement `TransitionNavigator`, `StateReducer` and `TransitionProvider`:
 
 ```swift
 final class MyFlowTransitionNavigator: TransitionNavigator { ... }
@@ -95,7 +95,7 @@ final class MyFlowStateRecuer: StateReducer { ... }
 final class MyFlowTransitionProvider: TransitionProvider { ... }
 ```
 
-Собираем и стартуем флоу:
+Build and start the flow:
 
 ```swift
 final class MyFlow {
@@ -113,11 +113,11 @@ final class MyFlow {
 }
 ```
 
-[Пример реализации флоу](Sources/FlowKitExampleTransferFlowFeature/Flow)
+[Example of flow implementation](Sources/FlowKitExampleTransferFlowFeature/Flow)
 
 ## DSL
 
-Вместо своей реализации `TransitionProvider`-а можно использовать уже существующий `DeclarativeTransitionProvider`, который позволяет описывать `TransitionProvider` с помощью DSL:
+Instead of implementing the `TransitionProvider`, you can use the existing `DeclarativeTransitionProvider`, which allows you to describe the `TransitionProvider` using DSL:
 
 ```swift
 let dsl = FlowDSL {
@@ -144,17 +144,17 @@ let transitionProvider = DeclarativeTransitionProvider(flowDSL: dsl)
 ...
 ```
 
-### Использование
+### Usage
 
-Создаем билдер DSL, поддерживающий протокол `FlowDSLBuilder`:
+Create a DSL builder that implements the protocol `FlowDSLBuilder`:
 
 ```swift
 final class MyFlowDSLBuilder: FlowDSLBuilder { ... }
 ````
 
-Для описания реакции на изменение состояния используется тип, определяющий возможные события (`Event`), и функция-`emitter` этих событий.
+To describe the state change reaction, the type defining possible events (`Event`) and the `emitter` function of these events are used.
 
-Определяем тип `Event` внутри билдера:
+Define the `Event` type inside the builder:
 
 ```swift
 final class MyFlowDSLBuilder: FlowDSLBuilder {
@@ -169,7 +169,7 @@ final class MyFlowDSLBuilder: FlowDSLBuilder {
 }
 ```
 
-Определяем `emitter` событий:
+Define the event `emitter`:
 
 ```swift
 static func emitter(_ stepResult: MyFlowStepResult, _ state: MyFlowState) -> Event? {
@@ -188,7 +188,7 @@ static func emitter(_ stepResult: MyFlowStepResult, _ state: MyFlowState) -> Eve
 }
 ```
 
-Описываем флоу, используя `emitter`:
+Describe the flow using `emitter`:
 
 ```swift
 
@@ -204,11 +204,11 @@ let dsl = FlowDSL {
 ...
 ```
 
-[Полный пример, где `FlowDSLBuilder` реализуется в самом `TransitionProvider`-е](Sources/FlowKitExampleTransferFlowFeature/Flow/TransferFlowTransitionProvider.swift)
+[A complete example where `FlowDSLBuilder` is implemented in the `TransitionProvider`](Sources/FlowKitExampleTransferFlowFeature/Flow/TransferFlowTransitionProvider.swift)
 
 ### Graphviz
 
-`DOTBuilder` позволяет конвертировать DSL в [язык описания графов DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) для последующей визуализации:
+`DOTBuilder` allows you to convert DSL to [the DOT graph description language](https://en.wikipedia.org/wiki/DOT_(graph_description_language)):
 
 ```swift
 let dot = DOTBuilder()
@@ -219,7 +219,7 @@ dot.dsl(dsl)
 print(dot.build())
 ```
 
-Результат для флоу из примера:
+The result for the flow from the example:
 
 ```dot
 strict digraph {
@@ -236,6 +236,6 @@ strict digraph {
 }
 ```
 
-Визуализация:
+Visualization:
 
 ![Flow Graph](assets/graph.png)
