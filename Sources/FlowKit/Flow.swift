@@ -10,6 +10,10 @@ public struct Flow<Result,
           ConcreteStateReducer.State == ConcreteTransitionProvider.State,
           ConcreteStateReducer.Result == Result {
 
+    public typealias Step = ConcreteTransitionNavigator.Step
+    public typealias State = ConcreteStateReducer.State
+    public typealias StepResult = ConcreteTransitionProvider.StepResult
+
     private let transitionNavigator: ConcreteTransitionNavigator
     private let stateReducer: ConcreteStateReducer
     private let transitionProvider: ConcreteTransitionProvider
@@ -23,16 +27,11 @@ public struct Flow<Result,
         self.transitionProvider = transitionProvider
     }
 
-    public func start(from step: ConcreteTransitionNavigator.Step,
-                      with state: ConcreteStateReducer.State) -> Promise<Result> {
-
+    public func start(from step: Step, with state: State) -> Promise<Result> {
         return navigate(using: .forwardTo(step), with: state)
     }
 
-    public func `continue`(from step: ConcreteTransitionProvider.Step,
-                           with stepResult: ConcreteTransitionNavigator.StepResult,
-                           state: ConcreteStateReducer.State) -> Promise<Result> {
-
+    public func `continue`(from step: Step, with stepResult: StepResult, state: State) -> Promise<Result> {
         return .promise { completion in
             stateReducer.reduce(state: state, with: stepResult)
                 .complete {
@@ -50,9 +49,7 @@ public struct Flow<Result,
 }
 
 private extension Flow {
-    func navigate(using transition: Transition<ConcreteTransitionNavigator.Step>,
-                  with state: ConcreteStateReducer.State) -> Promise<Result> {
-
+    func navigate(using transition: Transition<Step>, with state: State) -> Promise<Result> {
         return transitionNavigator.navigate(using: transition, with: state)
             .then {
                 switch transition {
