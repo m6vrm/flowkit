@@ -19,7 +19,6 @@ public struct Promise<Output> {
         return Self { completion in work { completion($0) } }
     }
 
-
     public func then<NewOutput>(_ builder: @escaping (Output) -> Promise<NewOutput>) -> Promise<NewOutput> {
         return Promise<NewOutput> { completion in
             complete { builder($0).complete(using: completion) }
