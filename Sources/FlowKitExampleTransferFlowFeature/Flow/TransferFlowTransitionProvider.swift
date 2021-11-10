@@ -1,22 +1,24 @@
 import FlowKit
 
 final class TransferFlowTransitionProvider {
-    enum Event {
-        case invalidAmount
-        case confirmationContinue
-        case confirmationEditAmount
-        case confirmationEditTariff
-    }
-
     private lazy var declarativeTransitionProvider = DeclarativeTransitionProvider(flowDSL: Self.makeFlowDSL())
 }
 
-extension TransferFlowTransitionProvider: TransitionProvider, FlowDSLBuilder {
+extension TransferFlowTransitionProvider: TransitionProvider {
     func transition(from step: TransferFlowStep,
                     with stepResult: TransferFlowStepResult,
                     state: TransferFlowState) -> Promise<Transition<TransferFlowStep>> {
 
         return declarativeTransitionProvider.transition(from: step, with: stepResult, state: state)
+    }
+}
+
+extension TransferFlowTransitionProvider: FlowDSLBuilder {
+    enum Event {
+        case invalidAmount
+        case confirmationContinue
+        case confirmationEditAmount
+        case confirmationEditTariff
     }
 }
 
