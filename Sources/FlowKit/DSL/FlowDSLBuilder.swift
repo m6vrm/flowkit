@@ -9,7 +9,7 @@ public protocol FlowDSLBuilder {
 }
 
 extension FlowDSLBuilder {
-    public static func step(_ step: Step,
+    public static func step(_ step: Step? = nil,
                             @Builders.ConditionBuilder conditions: () -> [On]) -> Step_ {
 
         return Step_(step: step, conditions: conditions())

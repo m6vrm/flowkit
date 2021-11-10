@@ -8,14 +8,25 @@ public final class DeclarativeTransitionProvider<Step: Equatable, Event: Equatab
 
 extension DeclarativeTransitionProvider: TransitionProvider {
     public func transition(from step: Step, with stepResult: StepResult, state: State) -> Promise<Transition<Step>> {
+        return transition(where: { $0 == nil }, stepResult: stepResult, state: state)   // handle "any" steps (*)
+            ?? transition(where: { $0 == step }, stepResult: stepResult, state: state)  // handle exact steps
+            ?? .nothing
+    }
+}
+
+private extension DeclarativeTransitionProvider {
+    func transition(where predicate: (Step?) -> Bool,
+                    stepResult: StepResult,
+                    state: State) -> Promise<Transition<Step>>? {
+
         let emitter = flowDSL.definition.emitter
 
         return flowDSL
             .definition
             .steps
-            .first { $0.step == step }?
+            .first { predicate($0.step) }?
             .conditions
-            .first { $0.event == nil || $0.event == emitter(stepResult, state) }
+            .first { $0.event == emitter(stepResult, state) }
             .map { .promise($0.transition) } ?? .nothing
     }
 }

@@ -18,9 +18,10 @@ public final class DOTBuilder {
     public init() { }
 
     public func dsl<Step, Event, StepResult, State>(_ flowDSL: FlowDSL<Step, Event, StepResult, State>) {
+        let stringify: (Step?) -> String = { $0.map { "\($0)" } ?? #""*""# }
         let graph = Graph()
 
-        // build graph and process fowrads/backs
+        // build graph and process forwards/backs
         for step in flowDSL.definition.steps {
             for condition in step.conditions {
                 switch condition.transition {
@@ -28,10 +29,10 @@ public final class DOTBuilder {
                         .backTo(let destination):
 
                     graph
-                        .node(name: "\(step.step)")
+                        .node(name: stringify(step.step))
                         .add(child: graph.node(name: "\(destination)"))
 
-                    edges.append((from: "\(step.step)",
+                    edges.append((from: stringify(step.step),
                                   to: "\(destination)",
                                   label: condition.event.map { "\($0)" } ))
                 default:
@@ -45,10 +46,10 @@ public final class DOTBuilder {
             for condition in step.conditions {
                 guard case .back = condition.transition else { continue }
 
-                for destination in graph.node(name: "\(step.step)").parents {
+                for destination in graph.node(name: stringify(step.step)).parents {
                     guard let destination = destination.node?.name else { continue }
 
-                    edges.append((from: "\(step.step)",
+                    edges.append((from: stringify(step.step),
                                   to: "\(destination)",
                                   label: condition.event.map { "\($0)" } ))
                 }
@@ -71,7 +72,7 @@ public final class DOTBuilder {
 
         for edge in edges {
             if let label = edge.label {
-                lines.append("\t\(edge.from) -> \(edge.to) [label=\"\(label)\"]")
+                lines.append("\t\(edge.from) -> \(edge.to) [label=\"on \(label)\"]")
             } else {
                 lines.append("\t\(edge.from) -> \(edge.to)")
             }

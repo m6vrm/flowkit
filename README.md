@@ -226,12 +226,12 @@ strict digraph {
 	rankdir=LR
 	node [shape=box]
 
-	amount -> invalidAmount [label="invalidAmount"]
+	amount -> invalidAmount [label="on invalidAmount"]
 	amount -> tariffs
 	tariffs -> confirmation
-	confirmation -> success [label="confirmationContinue"]
-	confirmation -> amount [label="confirmationEditAmount"]
-	confirmation -> tariffs [label="confirmationEditTariff"]
+	confirmation -> success [label="on confirmationContinue"]
+	confirmation -> amount [label="on confirmationEditAmount"]
+	confirmation -> tariffs [label="on confirmationEditTariff"]
 	success -> finish
 }
 ```

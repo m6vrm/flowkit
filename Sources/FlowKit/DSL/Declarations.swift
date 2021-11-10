@@ -5,7 +5,7 @@ public enum Declarations {
     }
 
     public struct Step<Step, Event> {
-        let step: Step
+        let step: Step?
         let conditions: [On<Step, Event>]
     }
 
