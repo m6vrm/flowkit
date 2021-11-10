@@ -26,6 +26,12 @@ public struct Promise<Output> {
         }
     }
 
+    public func map<NewOutput>(_ builder: @escaping (Output) -> NewOutput) -> Promise<NewOutput> {
+        return Promise<NewOutput> { completion in
+            complete { completion(builder($0)) }
+        }
+    }
+
     public func complete(using completion: @escaping Completion) {
         work { completion($0) }
     }
