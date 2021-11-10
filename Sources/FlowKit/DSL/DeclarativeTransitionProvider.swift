@@ -27,6 +27,6 @@ private extension DeclarativeTransitionProvider {
             .first { predicate($0.step) }?
             .conditions
             .first { $0.event == emitter(stepResult, state) }
-            .map { .promise($0.transition) } ?? .nothing
+            .map { .promise($0.transition) }
     }
 }
