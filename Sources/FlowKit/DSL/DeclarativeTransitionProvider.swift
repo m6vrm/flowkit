@@ -8,8 +8,8 @@ public final class DeclarativeTransitionProvider<Step: Equatable, Event: Equatab
 
 extension DeclarativeTransitionProvider: TransitionProvider {
     public func transition(from step: Step, with stepResult: StepResult, state: State) -> Promise<Transition<Step>> {
-        return transition(where: { $0 == nil }, stepResult: stepResult, state: state)   // handle "any" steps (*)
-            ?? transition(where: { $0 == step }, stepResult: stepResult, state: state)  // handle exact steps
+        return transition(where: { $0 == nil }, stepResult: stepResult, state: state)   // handle "any" step (*)
+            ?? transition(where: { $0 == step }, stepResult: stepResult, state: state)  // handle specific step
             ?? .nothing
     }
 }

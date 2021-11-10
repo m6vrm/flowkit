@@ -18,6 +18,7 @@ Features:
   - [State](#state)
 - [Usage](#usage)
 - [DSL](#dsl)
+  - [Declarations](#declarations)
   - [Graphviz](#graphviz)
 
 ## Concept
@@ -205,6 +206,13 @@ let dsl = FlowDSL {
 ```
 
 [Complete example where `FlowDSLBuilder` is implemented in the `TransitionProvider`](Sources/FlowKitExampleTransferFlowFeature/Flow/TransferFlowTransitionProvider.swift)
+
+### Declarations
+
+- `step(Step) { ... }` – event handling for a specific step.
+- `step { ... }` – event handling for *any* step.
+- `on(Event) { ... }` – handle specific event.
+- `next { ... }` – handle when no events were emitted.
 
 ### Graphviz
 
