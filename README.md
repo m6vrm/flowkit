@@ -17,7 +17,6 @@ A library that allows you to describe [flow coordinators](https://khanlou.com/20
 
 - Separation of responsibilities: navigation implementation, navigation logic and state transformation are described and can be tested independently of each other.
 - No shared state.
-- Ability to start a flow from any screen.
 - Declarativity, DSL out of the box, generation of [flow graph description in the DOT language](https://en.wikipedia.org/wiki/DOT_(graph_description_language)).
 - Server-driven flow ready.
 
