@@ -210,10 +210,10 @@ let dsl = FlowDSL {
 
 ### Declarations
 
-- `step(Step) { ... }` – event handling for a specific step.
-- `step { ... }` – event handling for *any* step.
-- `on(Event) { ... }` – handle specific event.
-- `next { ... }` – handle when no events were emitted.
+- `step(Step) { ... }` – event handling for a specific step
+- `step { ... }` – event handling for *any* step
+- `on(Event) { ... }` – handle specific event
+- `next { ... }` – handle when no events were emitted
 
 ### Graphviz
 
