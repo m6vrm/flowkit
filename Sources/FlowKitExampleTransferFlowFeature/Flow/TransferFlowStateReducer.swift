@@ -20,17 +20,15 @@ extension TransferFlowStateReducer: StateReducer {
         case (.confirmation(result: .continue, let loadingPublisher),
               .tariff(let tariff, let amount, let country)):
 
-            if .random(in: 0..<10) < 3 {
                 return .promise { completion in
                     loadingPublisher.value = true
                     self.transferRepository.createTransfer(country: country, amount: amount, tariff: tariff) {
-                        completion(.continue(.transfer($0)))
                         loadingPublisher.value = false
+                        Bool.random()
+                            ? completion(.continue(.transfer($0)))
+                            : completion(.continue(.error(title: "Please retry")))
                     }
                 }
-            } else {
-                return .promise(.continue(.error(title: "Please retry")))
-            }
         case (.retry, _):
             return .promise(.retry)
         case (.finish, .transfer(let transfer)):

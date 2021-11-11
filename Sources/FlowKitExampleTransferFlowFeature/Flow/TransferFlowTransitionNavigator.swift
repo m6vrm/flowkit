@@ -35,7 +35,7 @@ extension TransferFlowTransitionNavigator: TransitionNavigator {
                                                          amount: amount,
                                                          tariff: tariff,
                                                          completion: { completion(.confirmation(result: $0,
-                                                                                                        loadingPublisher: loadingPublisher)) }))
+                                                                                                loadingPublisher: loadingPublisher)) }))
             }
         case (.forwardTo(.success), .transfer(let transfer)):
             return .promise { completion in
