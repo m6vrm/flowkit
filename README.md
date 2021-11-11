@@ -92,7 +92,7 @@ Implement `TransitionNavigator`, `StateReducer` and `TransitionProvider`:
 ```swift
 final class MyFlowTransitionNavigator: TransitionNavigator { ... }
 
-final class MyFlowStateRecuer: StateReducer { ... }
+final class MyFlowStateReducer: StateReducer { ... }
 
 final class MyFlowTransitionProvider: TransitionProvider { ... }
 ```
@@ -102,7 +102,7 @@ Create and start the flow:
 ```swift
 final class MyFlow {
     private lazy var transitionNavigator = MyFlowTransitionNavigator(...)
-    private lazy var stateReducer = MyFlowStateRecuer(...)
+    private lazy var stateReducer = MyFlowStateReducer(...)
     private lazy var transitionProvider = MyFlowTransitionProvider(...)
 
     private lazy var flow = Flow(transitionNavigator: transitionNavigator,
@@ -124,6 +124,9 @@ Instead of implementing the `TransitionProvider`, you can use the existing `Decl
 ```swift
 let dsl = FlowDSL {
     emit(using: emitter)
+    step {
+        on(.error) { forward(to: .alert) }
+    }
     step(.amount) {
         on(.invalidAmount) { forward(to: .invalidAmount) }
         next { forward(to: .tariffs) }
@@ -180,10 +183,7 @@ static func emitter(_ stepResult: MyFlowStepResult, _ state: MyFlowState) -> Eve
         return .invalidAmount
     case .confirmation(.continue, _):
         return .confirmationContinue
-    case .confirmation(.editAmount, _):
-        return .confirmationEditAmount
-    case .confirmation(.editTariff, _):
-        return .confirmationEditTariff
+    ...
     default:
         return nil
     }
