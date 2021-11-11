@@ -58,8 +58,10 @@ Unlike the step and the result of the step, the state is passed to all the main 
 Add a dependency:
 
 ```swift
-.package(url: "https://github.com/madyanov/FlowKit.git", .upToNextMinor(from: "0.1.0")),
+.package(url: "https://github.com/madyanov/FlowKit.git", .upToNextMinor(from: "0.2.0")),
 ```
+
+> :warning: Until 1.0.0 minor versions may be breaking.
 
 Determine the flow steps, the results of the steps and the possible states:
 
@@ -234,6 +236,7 @@ strict digraph {
 	rankdir=LR
 	node [shape=box]
 
+	"*" -> alert [label="on error"]
 	amount -> invalidAmount [label="on invalidAmount"]
 	amount -> tariffs
 	tariffs -> confirmation

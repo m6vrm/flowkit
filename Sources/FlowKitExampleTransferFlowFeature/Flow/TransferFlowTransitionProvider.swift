@@ -19,6 +19,8 @@ extension TransferFlowTransitionProvider: FlowDSLBuilder {
         case confirmationContinue
         case confirmationEditAmount
         case confirmationEditTariff
+
+        case error
     }
 }
 
@@ -26,6 +28,9 @@ private extension TransferFlowTransitionProvider {
     static func makeFlowDSL() -> FlowDSL<TransferFlowStep, Event, TransferFlowStepResult, TransferFlowState> {
         let dsl = FlowDSL {
             emit(using: emitter)
+            step {
+                on(.error) { forward(to: .alert) }
+            }
             step(.amount) {
                 on(.invalidAmount) { forward(to: .invalidAmount) }
                 next { forward(to: .tariffs) }
@@ -51,14 +56,16 @@ private extension TransferFlowTransitionProvider {
     }
 
     static func emitter(_ stepResult: TransferFlowStepResult, _ state: TransferFlowState) -> Event? {
-        switch stepResult {
-        case .amount(let amount) where amount < 100:
+        switch (stepResult, state) {
+        case (_, .error):
+            return .error
+        case (.amount(let amount), _) where amount < 100:
             return .invalidAmount
-        case .confirmation(.continue, _):
+        case (.confirmation(.continue, _), _):
             return .confirmationContinue
-        case .confirmation(.editAmount, _):
+        case (.confirmation(.editAmount, _), _):
             return .confirmationEditAmount
-        case .confirmation(.editTariff, _):
+        case (.confirmation(.editTariff, _), _):
             return .confirmationEditTariff
         default:
             return nil

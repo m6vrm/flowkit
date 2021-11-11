@@ -47,6 +47,10 @@ extension TransferFlowTransitionNavigator: TransitionNavigator {
                 self.navigator.backToRoot()
                 $0(.finish)
             }
+        case (.forwardTo(.alert), .error(let title)):
+            return .promise { completion in
+                self.navigator.present(.alert(title: title, retry: { completion(.retry) }))
+            }
         case (.backTo(.amount), _):
             return .promise { _ in
                 self.navigator.forward(to: .amount(country: .russia, completion: { _ in }))

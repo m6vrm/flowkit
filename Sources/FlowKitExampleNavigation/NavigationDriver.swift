@@ -18,6 +18,10 @@ public final class NavigationDriver {
         }
     }
 
+    func present(_ viewController: UIViewController) {
+        navigationController.present(viewController, animated: true)
+    }
+
     func back() {
         navigationController.popViewController(animated: true)
     }

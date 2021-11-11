@@ -7,4 +7,6 @@ enum TransferFlowStep {
     case confirmation
     case success
     case finish
+
+    case alert
 }

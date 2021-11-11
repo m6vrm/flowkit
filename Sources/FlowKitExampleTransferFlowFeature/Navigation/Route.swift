@@ -10,4 +10,6 @@ enum Route {
                       tariff: Tariff,
                       completion: (ConfirmationResult) -> Void)
     case success(transfer: Transfer, completion: () -> Void)
+
+    case alert(title: String, retry: () -> Void)
 }

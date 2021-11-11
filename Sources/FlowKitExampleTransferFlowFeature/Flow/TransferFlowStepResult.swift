@@ -6,4 +6,6 @@ enum TransferFlowStepResult {
     case confirmation(result: ConfirmationResult, loadingPublisher: Publisher<Bool>)
     case success
     case finish
+
+    case retry
 }

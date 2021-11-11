@@ -20,6 +20,11 @@ extension ModuleBuilder: FlowKitExampleNavigation.ModuleBuilder {
             return SuccessViewController(transfer: transfer, completion: completion)
         case .invalidAmount:
             return InvalidAmountViewController()
+        case .alert(let title, let retry):
+            let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { _ in retry() }))
+            return alert
         }
     }
 }

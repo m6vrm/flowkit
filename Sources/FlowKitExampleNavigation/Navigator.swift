@@ -14,6 +14,11 @@ public final class Navigator<Route, Builder: ModuleBuilder> where Builder.Route 
         driver.forward(to: viewController)
     }
 
+    public func present(_ route: Route) {
+        let viewController = builder.build(by: route)
+        driver.present(viewController)
+    }
+
     public func back() {
         driver.back()
     }
