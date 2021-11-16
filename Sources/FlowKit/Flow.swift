@@ -14,7 +14,7 @@ public struct Flow<Result,
     public typealias State = ConcreteStateReducer.State
     public typealias StepResult = ConcreteTransitionProvider.StepResult
 
-    private struct Snapshot<Step, StepResult, State> {
+    private struct Snapshot {
         let step: Step
         let stepResult: StepResult
         let state: State
@@ -46,7 +46,7 @@ private extension Flow {
     private func `continue`(from step: Step,
                             with stepResult: StepResult,
                             state: State,
-                            previousSnapshot: Snapshot<Step, StepResult, State>?) -> Promise<Result> {
+                            previousSnapshot: Snapshot?) -> Promise<Result> {
 
         return .promise { completion in
             stateReducer.reduce(state: state, with: stepResult)
@@ -68,7 +68,7 @@ private extension Flow {
 
     private func navigate(using transition: Transition<Step>,
                           with state: State,
-                          previousSnapshot: Snapshot<Step, StepResult, State>?) -> Promise<Result> {
+                          previousSnapshot: Snapshot?) -> Promise<Result> {
 
         return transitionNavigator.navigate(using: transition, with: state)
             .then {
@@ -84,13 +84,13 @@ private extension Flow {
     private func transition(from step: Step,
                             with stepResult: StepResult,
                             state: State,
-                            previousSnapshot: Snapshot<Step, StepResult, State>) -> Promise<Result> {
+                            previousSnapshot: Snapshot) -> Promise<Result> {
 
         return transitionProvider.transition(from: step, with: stepResult, state: state)
             .then { navigate(using: $0, with: state, previousSnapshot: previousSnapshot) }
     }
 
-    private func retry(snapshot: Snapshot<Step, StepResult, State>) -> Promise<Result> {
+    private func retry(snapshot: Snapshot) -> Promise<Result> {
         return `continue`(from: snapshot.step,
                           with: snapshot.stepResult,
                           state: snapshot.state,

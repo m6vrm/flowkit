@@ -119,7 +119,7 @@ final class MyFlow {
 
 ## DSL
 
-Instead of implementing the `TransitionProvider`, you can use the existing `DeclarativeTransitionProvider`, which allows you to describe the `TransitionProvider` using DSL:
+Instead of implementing the `TransitionProvider`, you can use the existing `DeclarativeTransitionProvider`, which allows you to describe flow using DSL:
 
 ```swift
 let dsl = FlowDSL {
