@@ -37,12 +37,20 @@ extension TransferFlowStateReducer: StateReducer {
             return .promise(.retry)
         case (.finish, .transfer(let transfer)):
             return .promise(.finish(transfer))
-        // analytics
+        default:
+            trackAnalyticsIfNeeded(state: state, stepResult: stepResult)
+            return .promise(.continue(state))
+        }
+    }
+}
+
+private extension TransferFlowStateReducer {
+    func trackAnalyticsIfNeeded(state: TransferFlowState, stepResult: TransferFlowStepResult) {
+        switch (stepResult, state) {
         case (.confirmation(.dimBackground, _), _):
             analytics.track(event: "Dim Background")
-            return .promise(.continue(state))
         default:
-            return .promise(.continue(state))
+            break
         }
     }
 }
