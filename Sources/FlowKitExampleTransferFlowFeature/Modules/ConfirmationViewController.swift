@@ -100,22 +100,22 @@ final class ConfirmationViewController: UIViewController {
 
 private extension ConfirmationViewController {
     @objc
-    private func didTapEditAmountButton() {
+    func didTapEditAmountButton() {
         completion(.editAmount)
     }
 
     @objc
-    private func didTapEditTariffButton() {
+    func didTapEditTariffButton() {
         completion(.editTariff)
     }
 
     @objc
-    private func didTapContinueButton() {
+    func didTapContinueButton() {
         completion(.continue)
     }
 
     @objc
-    private func didTapDimBackgroundButton() {
+    func didTapDimBackgroundButton() {
         view.backgroundColor = view.backgroundColor == .white ? .lightGray : .white
         completion(.dimBackground)
     }

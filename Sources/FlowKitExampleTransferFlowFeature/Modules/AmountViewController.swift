@@ -51,7 +51,7 @@ final class AmountViewController: UIViewController {
 
 private extension AmountViewController {
     @objc
-    private func didTapContinueButton() {
+    func didTapContinueButton() {
         guard let amountString = amountField.text,
               let amount = Int(amountString) else { return }
 

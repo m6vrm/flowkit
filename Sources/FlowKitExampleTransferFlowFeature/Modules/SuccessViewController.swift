@@ -59,7 +59,7 @@ final class SuccessViewController: UIViewController {
 
 private extension SuccessViewController {
     @objc
-    private func didTapCloseButton() {
+    func didTapCloseButton() {
         completion()
     }
 }

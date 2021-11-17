@@ -56,17 +56,17 @@ final class TariffsViewController: UIViewController {
 
 private extension TariffsViewController {
     @objc
-    private func didTapTariffComission10Button() {
+    func didTapTariffComission10Button() {
         completion(Tariff(comission: 10))
     }
 
     @objc
-    private func didTapTariffComission20Button() {
+    func didTapTariffComission20Button() {
         completion(Tariff(comission: 20))
     }
 
     @objc
-    private func didTapTariffComission30Button() {
+    func didTapTariffComission30Button() {
         completion(Tariff(comission: 30))
     }
 }
