@@ -11,6 +11,10 @@ public final class TransferFlowFactory {
         let moduleBuilder = ModuleBuilder()
         let navigator = Navigator(driver: navigationDriver, builder: moduleBuilder)
         let transferRepository = RandomTransferRepository()
-        return TransferFlow(navigator: navigator, transferRepository: transferRepository)
+        let analytics = TransferFlowAnalyticsTracker()
+
+        return TransferFlow(navigator: navigator,
+                            transferRepository: transferRepository,
+                            analytics: analytics)
     }
 }

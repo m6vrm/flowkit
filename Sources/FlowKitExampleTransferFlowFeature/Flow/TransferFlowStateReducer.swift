@@ -2,9 +2,13 @@ import FlowKit
 
 final class TransferFlowStateReducer {
     private let transferRepository: TransferRepository
+    private let analytics: TransferFlowAnalyticsTracker
 
-    init(transferRepository: TransferRepository) {
+    init(transferRepository: TransferRepository,
+         analytics: TransferFlowAnalyticsTracker) {
+
         self.transferRepository = transferRepository
+        self.analytics = analytics
     }
 }
 
@@ -33,6 +37,10 @@ extension TransferFlowStateReducer: StateReducer {
             return .promise(.retry)
         case (.finish, .transfer(let transfer)):
             return .promise(.finish(transfer))
+        // analytics
+        case (.confirmation(.dimBackground, _), _):
+            analytics.track(event: "Dim Background")
+            return .promise(.continue(state))
         default:
             return .promise(.continue(state))
         }

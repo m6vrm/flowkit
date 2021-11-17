@@ -61,6 +61,10 @@ final class ConfirmationViewController: UIViewController {
         continueButton.setTitle("Continue", for: .normal)
         continueButton.addTarget(self, action: #selector(didTapContinueButton), for: .touchUpInside)
 
+        let dimBackgroundButton = UIButton(type: .system)
+        dimBackgroundButton.setTitle("Dim Background", for: .normal)
+        dimBackgroundButton.addTarget(self, action: #selector(didTapDimBackgroundButton), for: .touchUpInside)
+
         view.addSubview(stackView)
         view.addSubview(activityIndicator)
         stackView.addArrangedSubview(countryLabel)
@@ -69,6 +73,7 @@ final class ConfirmationViewController: UIViewController {
         stackView.addArrangedSubview(editAmountButton)
         stackView.addArrangedSubview(editTariffButton)
         stackView.addArrangedSubview(continueButton)
+        stackView.addArrangedSubview(dimBackgroundButton)
 
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
@@ -107,5 +112,11 @@ private extension ConfirmationViewController {
     @objc
     private func didTapContinueButton() {
         completion(.continue)
+    }
+
+    @objc
+    private func didTapDimBackgroundButton() {
+        view.backgroundColor = view.backgroundColor == .white ? .lightGray : .white
+        completion(.dimBackground)
     }
 }
