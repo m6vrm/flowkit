@@ -57,7 +57,7 @@ Unlike the step and the result of the step, the state is passed to all the main 
 Add a dependency:
 
 ```swift
-.package(url: "https://github.com/madyanov/FlowKit.git", .upToNextMinor(from: "0.2.0")),
+.package(url: "https://gitlab.com/madyanov/flowkit", .upToNextMinor(from: "0.2.0")),
 ```
 
 > :warning: Until 1.0.0 minor versions may be breaking.
