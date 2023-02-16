@@ -31,7 +31,7 @@ final class SuccessViewController: UIViewController {
         let identifierLabel = UILabel()
         let countryLabel = UILabel()
         let amountLabel = UILabel()
-        let comissionLabel = UILabel()
+        let commissionLabel = UILabel()
 
         let closeButton = UIButton(type: .system)
         closeButton.setTitle("Close", for: .normal)
@@ -41,7 +41,7 @@ final class SuccessViewController: UIViewController {
         stackView.addArrangedSubview(identifierLabel)
         stackView.addArrangedSubview(countryLabel)
         stackView.addArrangedSubview(amountLabel)
-        stackView.addArrangedSubview(comissionLabel)
+        stackView.addArrangedSubview(commissionLabel)
         stackView.addArrangedSubview(closeButton)
 
         NSLayoutConstraint.activate([
@@ -53,7 +53,7 @@ final class SuccessViewController: UIViewController {
         identifierLabel.text = "Identifier: \(transfer.identifier)"
         countryLabel.text = "Country: \(transfer.country.name)"
         amountLabel.text = "Amount: \(transfer.amount)"
-        comissionLabel.text = "Comission: \(transfer.tariff.comission)%"
+        commissionLabel.text = "Commission: \(transfer.tariff.commission)%"
     }
 }
 

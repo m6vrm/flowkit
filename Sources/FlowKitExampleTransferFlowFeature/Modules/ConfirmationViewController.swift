@@ -47,7 +47,7 @@ final class ConfirmationViewController: UIViewController {
 
         let countryLabel = UILabel()
         let amountLabel = UILabel()
-        let comissionLabel = UILabel()
+        let commissionLabel = UILabel()
 
         let editAmountButton = UIButton(type: .system)
         editAmountButton.setTitle("Edit Amount", for: .normal)
@@ -69,7 +69,7 @@ final class ConfirmationViewController: UIViewController {
         view.addSubview(activityIndicator)
         stackView.addArrangedSubview(countryLabel)
         stackView.addArrangedSubview(amountLabel)
-        stackView.addArrangedSubview(comissionLabel)
+        stackView.addArrangedSubview(commissionLabel)
         stackView.addArrangedSubview(editAmountButton)
         stackView.addArrangedSubview(editTariffButton)
         stackView.addArrangedSubview(continueButton)
@@ -86,7 +86,7 @@ final class ConfirmationViewController: UIViewController {
 
         countryLabel.text = "Country: \(country.name)"
         amountLabel.text = "Amount: \(amount)"
-        comissionLabel.text = "Comission: \(tariff.comission)%"
+        commissionLabel.text = "Commission: \(tariff.commission)%"
 
         loadingPublisher.subscribe { [weak self] loading in
             if loading {

@@ -1,3 +1,3 @@
 public struct Tariff {
-    public let comission: Int
+    public let commission: Int
 }

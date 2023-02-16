@@ -26,25 +26,25 @@ final class TariffsViewController: UIViewController {
         stackView.axis = .vertical
         stackView.spacing = 16
 
-        let comissionLabel = UILabel()
+        let commissionLabel = UILabel()
 
-        let comission10Button = UIButton(type: .system)
-        comission10Button.setTitle("Comission 10%", for: .normal)
-        comission10Button.addTarget(self, action: #selector(didTapTariffComission10Button), for: .touchUpInside)
+        let commission10Button = UIButton(type: .system)
+        commission10Button.setTitle("Commission 10%", for: .normal)
+        commission10Button.addTarget(self, action: #selector(didTapTariffCommission10Button), for: .touchUpInside)
 
-        let comission20Button = UIButton(type: .system)
-        comission20Button.setTitle("Comission 20%", for: .normal)
-        comission20Button.addTarget(self, action: #selector(didTapTariffComission20Button), for: .touchUpInside)
+        let commission20Button = UIButton(type: .system)
+        commission20Button.setTitle("Commission 20%", for: .normal)
+        commission20Button.addTarget(self, action: #selector(didTapTariffCommission20Button), for: .touchUpInside)
 
-        let comission30Button = UIButton(type: .system)
-        comission30Button.setTitle("Comission 30%", for: .normal)
-        comission30Button.addTarget(self, action: #selector(didTapTariffComission30Button), for: .touchUpInside)
+        let commission30Button = UIButton(type: .system)
+        commission30Button.setTitle("Commission 30%", for: .normal)
+        commission30Button.addTarget(self, action: #selector(didTapTariffCommission30Button), for: .touchUpInside)
 
         view.addSubview(stackView)
-        stackView.addArrangedSubview(comissionLabel)
-        stackView.addArrangedSubview(comission10Button)
-        stackView.addArrangedSubview(comission20Button)
-        stackView.addArrangedSubview(comission30Button)
+        stackView.addArrangedSubview(commissionLabel)
+        stackView.addArrangedSubview(commission10Button)
+        stackView.addArrangedSubview(commission20Button)
+        stackView.addArrangedSubview(commission30Button)
 
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
@@ -56,17 +56,17 @@ final class TariffsViewController: UIViewController {
 
 private extension TariffsViewController {
     @objc
-    func didTapTariffComission10Button() {
-        completion(Tariff(comission: 10))
+    func didTapTariffCommission10Button() {
+        completion(Tariff(commission: 10))
     }
 
     @objc
-    func didTapTariffComission20Button() {
-        completion(Tariff(comission: 20))
+    func didTapTariffCommission20Button() {
+        completion(Tariff(commission: 20))
     }
 
     @objc
-    func didTapTariffComission30Button() {
-        completion(Tariff(comission: 30))
+    func didTapTariffCommission30Button() {
+        completion(Tariff(commission: 30))
     }
 }
