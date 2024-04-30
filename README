@@ -44,10 +44,10 @@ Concept
                 │
                yes
                 │
-         ┌──────▼───────┐
-         │complete with │
-         │ flow result  │
-         └──────────────┘
+         ┌──────▼──────┐
+         │complete with│
+         │ flow result │
+         └─────────────┘
 
 The main idea is a vertical separation of responsibilities of the flow:
 
