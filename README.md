@@ -5,14 +5,14 @@ This library allows you to describe flow coordinators
 Features
 ========
 
-    *   Separation of responsibilities: navigation implementation, navigation
-        logic and state transformation are described and can be tested
-        independently of each other
-    *   No shared state
-    *   Declarativity, DSL out of the box, generation of flow graph description
-        in the DOT language
-        (https://en.wikipedia.org/wiki/DOT_(graph_description_language))
-    *   Server-driven flow ready
+*   Separation of responsibilities: navigation implementation, navigation logic
+    and state transformation are described and can be tested independently
+    of each other
+*   No shared state
+*   Declarativity, DSL out of the box, generation of flow graph description
+    in the DOT language
+    (https://en.wikipedia.org/wiki/DOT_(graph_description_language))
+*   Server-driven flow ready
 
 Concept
 =======
@@ -51,13 +51,11 @@ Concept
 
 The main idea is a vertical separation of responsibilities of the flow:
 
-    *   Navigation implementation (TransitionNavigator) – changing the tree
-        of screens
-    *   Navigation logic (TransitionProvider) – determining which screen
-        to go next
-    *   State transformation (StateReducer) – transformation of data as the flow
-        progresses and determining when there is enough data to complete
-        the flow
+*   Navigation implementation (TransitionNavigator) – changing the tree
+    of screens
+*   Navigation logic (TransitionProvider) – determining which screen to go next
+*   State transformation (StateReducer) – transformation of data as the flow
+    progresses and determining when there is enough data to complete the flow
 
 These components are asynchronous and operate with entities such as Step,
 StepResult, State.
@@ -224,10 +222,10 @@ Sources/FlowKitExampleTransferFlowFeature/Flow/TransferFlowTransitionProvider.sw
 Declarations
 ------------
 
-    *   step(Step) { ... } – event handling for a specific step
-    *   step { ... } – event handling for *any* step
-    *   on(Event) { ... } – handle specific event
-    *   next { ... } – handle when no events were emitted
+*   step(Step) { ... } – event handling for a specific step
+*   step { ... } – event handling for *any* step
+*   on(Event) { ... } – handle specific event
+*   next { ... } – handle when no events were emitted
 
 Graphviz
 --------
@@ -258,4 +256,4 @@ Result for the example flow:
         success -> finish
     }
 
-Visualization: assets/graph.png
+See assets/graph.png for visualization.
