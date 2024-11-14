@@ -92,12 +92,15 @@ Usage
 
 Add a dependency:
 
+```swift
     .package(url: "https://m6v.ru/git/flowkit", .upToNextMinor(from: "0.2.0"))
+```
 
 NOTE: Until 1.0.0 minor versions may be breaking.
 
 Determine the flow steps, the results of the steps and the possible states:
 
+```swift
     enum MyFlowStep {
         case amount
         case invalidAmount
@@ -115,15 +118,19 @@ Determine the flow steps, the results of the steps and the possible states:
         case amount(Int, country: Country)
         case tariff(Tariff, amount: Int, country: Country)
     }
+```
 
 Implement TransitionNavigator, StateReducer and TransitionProvider:
 
+```swift
     final class MyFlowTransitionNavigator: TransitionNavigator { ... }
     final class MyFlowStateReducer: StateReducer { ... }
     final class MyFlowTransitionProvider: TransitionProvider { ... }
+```
 
 Create and start the flow:
 
+```swift
     final class MyFlow {
         private lazy var transitionNavigator = MyFlowTransitionNavigator(...)
         private lazy var stateReducer = MyFlowStateReducer(...)
@@ -137,6 +144,7 @@ Create and start the flow:
             return flow.start(from: .amount, with: .country(country))
         }
     }
+```
 
 Example of flow implementation: Sources/FlowKitExampleTransferFlowFeature/Flow
 
@@ -146,6 +154,7 @@ DSL
 Instead of implementing the TransitionProvider, you can use the existing
 DeclarativeTransitionProvider, which allows you to describe flow using DSL:
 
+```swift
     let dsl = FlowDSL {
         emit(using: emitter)
         step {
@@ -169,19 +178,23 @@ DeclarativeTransitionProvider, which allows you to describe flow using DSL:
     }
 
     let transitionProvider = DeclarativeTransitionProvider(flowDSL: dsl)
+```
 
 Usage
 -----
 
 Create a DSL builder that implements the FlowDSLBuilder protocol:
 
+```swift
     final class MyFlowDSLBuilder: FlowDSLBuilder { ... }
+```
 
 To describe the state change reaction, the type defining possible events (Event)
 and the emitter function of these events are used.
 
 Define the Event type inside the builder:
 
+```swift
     final class MyFlowDSLBuilder: FlowDSLBuilder {
         enum Event {
             case invalidAmount
@@ -190,9 +203,11 @@ Define the Event type inside the builder:
             case confirmationEditTariff
         }
     }
+```
 
 Define the event emitter:
 
+```swift
     static func emitter(_ stepResult: MyFlowStepResult,
                         _ state: MyFlowState) -> Event? {
 
@@ -205,9 +220,11 @@ Define the event emitter:
             return nil
         }
     }
+```
 
 Describe the flow using this emitter:
 
+```swift
     let dsl = FlowDSL {
         emit(using: emitter)
         step(.amount) {
@@ -215,6 +232,7 @@ Describe the flow using this emitter:
             next { forward(to: .tariffs) }
         }
     }
+```
 
 Complete example where FlowDSLBuilder is implemented:
 Sources/FlowKitExampleTransferFlowFeature/Flow/TransferFlowTransitionProvider.swift
@@ -233,15 +251,18 @@ Graphviz
 The DOTBuilder allows you to convert DSL to the DOT graph description language
 (https://en.wikipedia.org/wiki/DOT_(graph_description_language)):
 
+```swift
     let dot = DOTBuilder()
     let dsl = FlowDSL { ... }
 
     dot.dsl(dsl)
 
     print(dot.build())
+```
 
 Result for the example flow:
 
+```dot
     strict digraph {
         rankdir=LR
         node [shape=box]
@@ -255,5 +276,6 @@ Result for the example flow:
         confirmation -> tariffs [label="on confirmationEditTariff"]
         success -> finish
     }
+```
 
 See assets/graph.png for visualization.
